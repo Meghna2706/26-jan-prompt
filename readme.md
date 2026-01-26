@@ -1,3 +1,7 @@
+TECHNICAL BLOG:
+https://builder.aws.com/content/38ntpczgHcuHFVRt9MiFrpCXW6r/the-multilingual-mandi-building-an-ai-powered-linguistic-bridge-for-indias-local-markets
+
+
 # 🌾 Mandi AI Assistant  
 ### Multilingual Fair Price & Negotiation Platform
 
