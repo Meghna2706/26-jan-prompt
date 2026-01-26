@@ -1,0 +1,1324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mandi AI Assistant</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #2d3748;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 25% 25%, rgba(255,107,107,0.3) 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, rgba(72,187,120,0.3) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(66,153,225,0.2) 0%, transparent 70%),
+                linear-gradient(45deg, rgba(245,101,101,0.1) 0%, rgba(9,9,121,0.1) 35%, rgba(0,212,255,0.1) 100%);
+            pointer-events: none;
+            z-index: -1;
+            animation: backgroundShift 20s ease-in-out infinite;
+        }
+        
+        @keyframes backgroundShift {
+            0%, 100% { 
+                background: 
+                    radial-gradient(circle at 25% 25%, rgba(255,107,107,0.3) 0%, transparent 50%),
+                    radial-gradient(circle at 75% 75%, rgba(72,187,120,0.3) 0%, transparent 50%),
+                    radial-gradient(circle at 50% 50%, rgba(66,153,225,0.2) 0%, transparent 70%);
+            }
+            50% { 
+                background: 
+                    radial-gradient(circle at 75% 25%, rgba(72,187,120,0.3) 0%, transparent 50%),
+                    radial-gradient(circle at 25% 75%, rgba(255,107,107,0.3) 0%, transparent 50%),
+                    radial-gradient(circle at 50% 50%, rgba(159,122,234,0.2) 0%, transparent 70%);
+            }
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .header h1 {
+            color: #2d3748;
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            font-weight: 700;
+        }
+        
+        .header p {
+            color: #4a5568;
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .assistant-panel {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 35px;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .assistant-panel:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+        }
+        
+        .panel-title {
+            font-size: 1.5rem;
+            color: #2d3748;
+            margin-bottom: 25px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .input-section {
+            margin-bottom: 25px;
+        }
+        
+        .input-section label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #4a5568;
+            font-size: 1.1rem;
+        }
+        
+        .input-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(255,255,255,0.9);
+            color: #2d3748;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            background: rgba(255,255,255,0.95);
+            box-shadow: 0 0 0 3px rgba(102,126,234,0.2);
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-right: 15px;
+            margin-bottom: 10px;
+            box-shadow: 0 4px 15px rgba(102,126,234,0.3);
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102,126,234,0.4);
+            background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
+        }
+        
+        .btn-voice {
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+        }
+        
+        .btn-voice:hover {
+            background: linear-gradient(135deg, #38a169 0%, #2f855a 100%);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, #ed8936 0%, #dd6b20 100%);
+        }
+        
+        .btn-secondary:hover {
+            background: linear-gradient(135deg, #dd6b20 0%, #c05621 100%);
+        }
+        
+        .result-panel {
+            background: rgba(255,255,255,0.95);
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 20px;
+            border-left: 5px solid #667eea;
+            backdrop-filter: blur(10px);
+            animation: slideIn 0.5s ease;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .price-result {
+            background: rgba(240,255,244,0.95);
+            border-left-color: #48bb78;
+        }
+        
+        .negotiation-result {
+            background: rgba(255,250,240,0.95);
+            border-left-color: #ed8936;
+        }
+        
+        .language-selector {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .lang-btn {
+            padding: 12px 20px;
+            border: 2px solid #e2e8f0;
+            background: rgba(255,255,255,0.9);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            color: #4a5568;
+            backdrop-filter: blur(10px);
+        }
+        
+        .lang-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(102,126,234,0.2);
+        }
+        
+        .lang-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: #667eea;
+            box-shadow: 0 4px 15px rgba(102,126,234,0.3);
+        }
+        
+        .voice-indicator {
+            display: none;
+            color: #48bb78;
+            font-weight: bold;
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(72,187,120,0.1);
+            border-radius: 10px;
+            text-align: center;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        .voice-indicator.active {
+            display: block;
+        }
+        
+        .ai-suggestions {
+            background: rgba(102,126,234,0.1);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .suggestion-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            padding: 10px;
+            background: rgba(255,255,255,0.5);
+            border-radius: 8px;
+        }
+        
+        .market-trends {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .trend-item {
+            background: rgba(255,255,255,0.9);
+            padding: 12px 18px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #4a5568;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(102,126,234,0.3);
+            border-radius: 50%;
+            border-top-color: #667eea;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .smart-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .feature-card {
+            background: rgba(255,255,255,0.9);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(226,232,240,0.5);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+        
+        @media (max-width: 768px) {
+            .input-group {
+                flex-direction: column;
+            }
+            
+            .header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .container {
+                padding: 15px;
+            }
+            
+            .assistant-panel {
+                padding: 25px;
+            }
+            
+            .language-selector {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 id="mainTitle">🛒 Mandi AI Assistant</h1>
+            <p id="mainSubtitle">Fair pricing and negotiation help in your language</p>
+        </div>
+        
+        <div class="assistant-panel">
+            <div class="input-section">
+                <label id="languageLabel">Select Your Language</label>
+                <div class="language-selector">
+                    <button class="lang-btn active" onclick="setLanguage('en')" data-lang="en">English</button>
+                    <button class="lang-btn" onclick="setLanguage('hi')" data-lang="hi">हिंदी</button>
+                    <button class="lang-btn" onclick="setLanguage('ta')" data-lang="ta">தமிழ்</button>
+                    <button class="lang-btn" onclick="setLanguage('te')" data-lang="te">తెలుగు</button>
+                    <button class="lang-btn" onclick="setLanguage('bn')" data-lang="bn">বাংলা</button>
+                    <button class="lang-btn" onclick="setLanguage('mr')" data-lang="mr">मराठी</button>
+                </div>
+            </div>
+            
+            <div class="panel-title">
+                <span>💰</span>
+                <span id="priceDiscoveryTitle">Price Discovery Assistant</span>
+            </div>
+            
+            <div class="input-section">
+                <label id="productDetailsLabel">Product Details</label>
+                <div class="input-group">
+                    <input type="text" id="productName" placeholder="Product name (e.g., Tomatoes, Rice)" />
+                    <input type="number" id="quantity" placeholder="Quantity (kg)" />
+                </div>
+                <input type="text" id="location" placeholder="Your location (e.g., Delhi, Mumbai)" />
+            </div>
+            
+            <div class="input-section">
+                <button class="btn" onclick="getPriceRecommendation()">
+                    <span id="getPriceBtn">💰 Get Fair Price</span>
+                </button>
+                <button class="btn btn-voice" onclick="startVoiceInput()">
+                    <span id="voiceInputBtn">🎤 Voice Input</span>
+                </button>
+                <button class="btn btn-secondary" onclick="getMarketTrends()">
+                    <span id="marketTrendsBtn">📊 Market Trends</span>
+                </button>
+            </div>
+            
+            <div class="voice-indicator" id="voiceIndicator">
+                <span id="listeningText">🎤 Listening... Speak in your selected language</span>
+            </div>
+            
+            <div id="results"></div>
+        </div>
+        
+        <div class="assistant-panel">
+            <div class="panel-title">
+                <span>🤝</span>
+                <span id="negotiationTitle">Negotiation Assistant</span>
+            </div>
+            
+            <div class="input-section">
+                <label id="negotiationLabel">Buyer's Offer and Your Price</label>
+                <div class="input-group">
+                    <input type="number" id="buyerOffer" placeholder="Buyer's offer (per kg)" />
+                    <input type="number" id="yourPrice" placeholder="Your asking price (per kg)" />
+                </div>
+                <textarea id="negotiationContext" rows="3" placeholder="Additional context (quality, urgency, etc.)"></textarea>
+            </div>
+            
+            <div class="input-section">
+                <button class="btn" onclick="getNegotiationAdvice()">
+                    <span id="negotiationAdviceBtn">🤝 Get Negotiation Advice</span>
+                </button>
+                <button class="btn btn-secondary" onclick="getCompetitorPrices()">
+                    <span id="competitorBtn">🔍 Competitor Prices</span>
+                </button>
+            </div>
+            
+            <div id="negotiationResults"></div>
+        </div>
+        
+        <div class="assistant-panel">
+            <div class="panel-title">
+                <span>🧠</span>
+                <span id="smartFeaturesTitle">Smart Features</span>
+            </div>
+            
+            <div class="smart-features">
+                <div class="feature-card" onclick="getSeasonalAdvice()">
+                    <span class="feature-icon">🌱</span>
+                    <h4 id="seasonalAdviceTitle">Seasonal Advice</h4>
+                    <p id="seasonalAdviceDesc">Season-based pricing</p>
+                </div>
+                
+                <div class="feature-card" onclick="getQualityTips()">
+                    <span class="feature-icon">⭐</span>
+                    <h4 id="qualityTipsTitle">Quality Tips</h4>
+                    <p id="qualityTipsDesc">For better prices</p>
+                </div>
+                
+                <div class="feature-card" onclick="getStorageTips()">
+                    <span class="feature-icon">📦</span>
+                    <h4 id="storageTipsTitle">Storage Advice</h4>
+                    <p id="storageTipsDesc">Reduce losses</p>
+                </div>
+                
+                <div class="feature-card" onclick="getTransportAdvice()">
+                    <span class="feature-icon">🚛</span>
+                    <h4 id="transportTitle">Transport Advice</h4>
+                    <p id="transportDesc">Lower costs</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let currentLanguage = 'en';
+        let recognition;
+        
+        // Comprehensive translations with response messages
+        const translations = {
+            'en': {
+                mainTitle: '🛒 Mandi AI Assistant',
+                mainSubtitle: 'Fair pricing and negotiation help in your language',
+                languageLabel: 'Select Your Language',
+                priceDiscoveryTitle: 'Price Discovery Assistant',
+                productDetailsLabel: 'Product Details',
+                getPriceBtn: '💰 Get Fair Price',
+                voiceInputBtn: '🎤 Voice Input',
+                marketTrendsBtn: '📊 Market Trends',
+                listeningText: '🎤 Listening... Speak in your selected language',
+                negotiationTitle: 'Negotiation Assistant',
+                negotiationLabel: 'Buyer\'s Offer and Your Price',
+                negotiationAdviceBtn: '🤝 Get Negotiation Advice',
+                competitorBtn: '🔍 Competitor Prices',
+                smartFeaturesTitle: 'Smart Features',
+                seasonalAdviceTitle: 'Seasonal Advice',
+                seasonalAdviceDesc: 'Season-based pricing',
+                qualityTipsTitle: 'Quality Tips',
+                qualityTipsDesc: 'For better prices',
+                storageTipsTitle: 'Storage Advice',
+                storageTipsDesc: 'Reduce losses',
+                transportTitle: 'Transport Advice',
+                transportDesc: 'Lower costs',
+                productPlaceholder: 'Product name (e.g., Tomatoes, Rice)',
+                quantityPlaceholder: 'Quantity (kg)',
+                locationPlaceholder: 'Your location (e.g., Delhi, Mumbai)',
+                buyerOfferPlaceholder: 'Buyer\'s offer (per kg)',
+                yourPricePlaceholder: 'Your asking price (per kg)',
+                contextPlaceholder: 'Additional context (quality, urgency, etc.)',
+                // Response messages
+                priceRecommendationTitle: 'Price Recommendation for',
+                fairMarketPrice: 'Fair Market Price:',
+                priceRange: 'Price Range:',
+                marketTrend: 'Market Trend:',
+                confidence: 'Confidence:',
+                location: 'Location:',
+                quantity: 'Quantity:',
+                aiSuggestions: '🧠 AI Suggestions:',
+                basedOnMarketData: 'Based on current market data and seasonal trends',
+                bestSellingTime: 'Selling between 6-8 AM may get better prices',
+                packagingTip: 'Good packaging can increase price by 5-10%',
+                wholesaleMarket: '🏪 Wholesale Market:',
+                retailMarket: '🛒 Retail Market:',
+                onlineMarket: '🌐 Online:',
+                negotiationStrategy: '🤝 Negotiation Strategy',
+                buyerOffer: 'Buyer\'s Offer:',
+                yourPrice: 'Your Price:',
+                suggestedCounter: 'Suggested Counter:',
+                priceDifference: 'Price Difference:',
+                strategy: 'Strategy:',
+                context: 'Context:',
+                suggestedResponse: '💬 Suggested Response:',
+                marketTrendsTitle: '📊 Today\'s Market Trends',
+                vegetables: '🥕 Vegetables: Stable',
+                grains: '🌾 Grains: Rising',
+                dairy: '🥛 Dairy: Falling',
+                fruits: '🍎 Fruits: Mixed',
+                weeklyForecast: '📈 Weekly Forecast:',
+                rainEffect: 'Rain may increase leafy vegetable prices',
+                festivalEffect: 'Festival season will increase transport costs',
+                competitorPricesTitle: '🔍 Nearby Competitor Prices',
+                shop: '🏪 Shop',
+                online: '📱 Online:',
+                competitorAdvice: 'Your price is market competitive',
+                qualityPremium: 'You can charge premium by emphasizing quality',
+                seasonalAdviceText: '🌱 Seasonal Advice: Current season has high demand for tomatoes and onions. Potato prices may rise next month.',
+                qualityTipsText: '⭐ Quality Tips: Clean packaging, fresh-looking products, and grading can increase price by 10-15%.',
+                storageTipsText: '📦 Storage Advice: Keep vegetables in cool, airy place. Store onions in dry place. Sell within 2-3 days.',
+                transportAdviceText: '🚛 Transport Advice: Transport early morning. Shared trucks can reduce cost by 30%. Keep packaging strong.'
+            },
+            'hi': {
+                mainTitle: '🛒 मंडी AI सहायक',
+                mainSubtitle: 'आपकी भाषा में उचित मूल्य और बातचीत की सहायता',
+                languageLabel: 'अपनी भाषा चुनें',
+                priceDiscoveryTitle: 'मूल्य खोज सहायक',
+                productDetailsLabel: 'उत्पाद विवरण',
+                getPriceBtn: '💰 उचित मूल्य पाएं',
+                voiceInputBtn: '🎤 आवाज़ से बोलें',
+                marketTrendsBtn: '📊 बाज़ार रुझान',
+                listeningText: '🎤 सुन रहा हूं... अपनी चुनी हुई भाषा में बोलें',
+                negotiationTitle: 'बातचीत सहायक',
+                negotiationLabel: 'खरीदार का प्रस्ताव और आपका मूल्य',
+                negotiationAdviceBtn: '🤝 बातचीत की सलाह पाएं',
+                competitorBtn: '🔍 प्रतिस्पर्धी मूल्य',
+                smartFeaturesTitle: 'स्मार्ट सुविधाएं',
+                seasonalAdviceTitle: 'मौसमी सलाह',
+                seasonalAdviceDesc: 'मौसम के अनुसार मूल्य',
+                qualityTipsTitle: 'गुणवत्ता सुझाव',
+                qualityTipsDesc: 'बेहतर मूल्य के लिए',
+                storageTipsTitle: 'भंडारण सलाह',
+                storageTipsDesc: 'नुकसान कम करें',
+                transportTitle: 'परिवहन सलाह',
+                transportDesc: 'लागत कम करें',
+                productPlaceholder: 'उत्पाद का नाम (जैसे: टमाटर, चावल)',
+                quantityPlaceholder: 'मात्रा (किलो)',
+                locationPlaceholder: 'आपका स्थान (जैसे: दिल्ली, मुंबई)',
+                buyerOfferPlaceholder: 'खरीदार का प्रस्ताव (प्रति किलो)',
+                yourPricePlaceholder: 'आपका मांगा गया मूल्य (प्रति किलो)',
+                contextPlaceholder: 'अतिरिक्त जानकारी (गुणवत्ता, जल्दी बेचना है, आदि)',
+                // Response messages in Hindi
+                priceRecommendationTitle: 'के लिए मूल्य सुझाव',
+                fairMarketPrice: 'उचित बाज़ार मूल्य:',
+                priceRange: 'मूल्य सीमा:',
+                marketTrend: 'बाज़ार रुझान:',
+                confidence: 'विश्वसनीयता:',
+                location: 'स्थान:',
+                quantity: 'मात्रा:',
+                aiSuggestions: '🧠 AI सुझाव:',
+                basedOnMarketData: 'वर्तमान बाज़ार डेटा और मौसमी रुझान के आधार पर',
+                bestSellingTime: 'सुबह 6-8 बजे बेचने से बेहतर मूल्य मिल सकता है',
+                packagingTip: 'अच्छी पैकेजिंग से 5-10% अधिक मूल्य मिल सकता है',
+                wholesaleMarket: '🏪 थोक बाज़ार:',
+                retailMarket: '🛒 खुदरा बाज़ार:',
+                onlineMarket: '🌐 ऑनलाइन:',
+                negotiationStrategy: '🤝 बातचीत रणनीति',
+                buyerOffer: 'खरीदार का ऑफर:',
+                yourPrice: 'आपका मूल्य:',
+                suggestedCounter: 'सुझावित काउंटर:',
+                priceDifference: 'मूल्य अंतर:',
+                strategy: 'रणनीति:',
+                context: 'संदर्भ:',
+                suggestedResponse: '💬 सुझावित जवाब:',
+                marketTrendsTitle: '📊 आज के बाज़ार रुझान',
+                vegetables: '🥕 सब्जियां: स्थिर',
+                grains: '🌾 अनाज: बढ़ रहा',
+                dairy: '🥛 डेयरी: घट रहा',
+                fruits: '🍎 फल: मिश्रित',
+                weeklyForecast: '📈 सप्ताह का पूर्वानुमान:',
+                rainEffect: 'बारिश के कारण पत्तेदार सब्जियों की कीमत बढ़ सकती है',
+                festivalEffect: 'त्योहारी सीजन में परिवहन लागत बढ़ेगी',
+                competitorPricesTitle: '🔍 आसपास के प्रतिस्पर्धी मूल्य',
+                shop: '🏪 दुकान',
+                online: '📱 ऑनलाइन:',
+                competitorAdvice: 'आपका मूल्य बाज़ार के अनुकूल है',
+                qualityPremium: 'गुणवत्ता पर जोर देकर प्रीमियम चार्ज कर सकते हैं',
+                seasonalAdviceText: '🌱 मौसमी सलाह: वर्तमान मौसम में टमाटर और प्याज की मांग अधिक है। अगले महीने आलू की कीमत बढ़ सकती है।',
+                qualityTipsText: '⭐ गुणवत्ता सुझाव: साफ-सुथरी पैकेजिंग, फ्रेश दिखने वाले उत्पाद, और ग्रेडिंग से 10-15% अधिक मूल्य मिल सकता है।',
+                storageTipsText: '📦 भंडारण सलाह: सब्जियों को ठंडी और हवादार जगह रखें। प्याज को सूखी जगह रखें। 2-3 दिन में बेच दें।',
+                transportAdviceText: '🚛 परिवहन सलाह: सुबह जल्दी ट्रांसपोर्ट करें। शेयर्ड ट्रक से लागत 30% कम हो सकती है। पैकेजिंग मजबूत रखें।'
+            },
+            'ta': {
+                mainTitle: '🛒 மண்டி AI உதவியாளர்',
+                mainSubtitle: 'உங்கள் மொழியில் நியாயமான விலை மற்றும் பேரம் உதவி',
+                languageLabel: 'உங்கள் மொழியைத் தேர்ந்தெடுக்கவும்',
+                priceDiscoveryTitle: 'விலை கண்டுபிடிப்பு உதவியாளர்',
+                productDetailsLabel: 'தயாரிப்பு விவரங்கள்',
+                getPriceBtn: '💰 நியாயமான விலை பெறுங்கள்',
+                voiceInputBtn: '🎤 குரல் உள்ளீடு',
+                marketTrendsBtn: '📊 சந்தை போக்குகள்',
+                listeningText: '🎤 கேட்கிறேன்... உங்கள் தேர்ந்தெடுத்த மொழியில் பேசுங்கள்',
+                negotiationTitle: 'பேரம் உதவியாளர்',
+                negotiationLabel: 'வாங்குபவரின் வாய்ப்பாடு மற்றும் உங்கள் விலை',
+                negotiationAdviceBtn: '🤝 பேரம் ஆலோசனை பெறுங்கள்',
+                competitorBtn: '🔍 போட்டியாளர் விலைகள்',
+                smartFeaturesTitle: 'ஸ்மார்ட் அம்சங்கள்',
+                seasonalAdviceTitle: 'பருவகால ஆலோசனை',
+                seasonalAdviceDesc: 'பருவத்தின் அடிப்படையில் விலை',
+                qualityTipsTitle: 'தரம் குறிப்புகள்',
+                qualityTipsDesc: 'சிறந்த விலைக்கு',
+                storageTipsTitle: 'சேமிப்பு ஆலோசனை',
+                storageTipsDesc: 'இழப்புகளை குறைக்கவும்',
+                transportTitle: 'போக்குவரத்து ஆலோசனை',
+                transportDesc: 'செலவுகளை குறைக்கவும்',
+                productPlaceholder: 'தயாரிப்பு பெயர் (எ.கா: தக்காளி, அரிசி)',
+                quantityPlaceholder: 'அளவு (கிலோ)',
+                locationPlaceholder: 'உங்கள் இடம் (எ.கா: சென்னை, கோயம்புத்தூர்)',
+                buyerOfferPlaceholder: 'வாங்குபவரின் வாய்ப்பாடு (கிலோவுக்கு)',
+                yourPricePlaceholder: 'உங்கள் கேட்ட விலை (கிலோவுக்கு)',
+                contextPlaceholder: 'கூடுதல் தகவல் (தரம், அவசரம், போன்றவை)',
+                priceRecommendationTitle: 'க்கான விலை பரிந்துரை',
+                fairMarketPrice: 'நியாயமான சந்தை விலை:',
+                priceRange: 'விலை வரம்பு:',
+                marketTrend: 'சந்தை போக்கு:',
+                confidence: 'நம்பிக்கை:',
+                location: 'இடம்:',
+                quantity: 'அளவு:',
+                aiSuggestions: '🧠 AI பரிந்துரைகள்:',
+                basedOnMarketData: 'தற்போதைய சந்தை தரவு மற்றும் பருவகால போக்குகளின் அடிப்படையில்',
+                bestSellingTime: 'காலை 6-8 மணிக்கு விற்பனை செய்வது சிறந்த விலை தரலாம்',
+                packagingTip: 'நல்ல பேக்கேஜிங் 5-10% அதிக விலை தரலாம்',
+                wholesaleMarket: '🏪 மொத்த சந்தை:',
+                retailMarket: '🛒 சில்லறை சந்தை:',
+                onlineMarket: '🌐 ஆன்லைன்:',
+                negotiationStrategy: '🤝 பேரம் உத்தி',
+                buyerOffer: 'வாங்குபவரின் வாய்ப்பாடு:',
+                yourPrice: 'உங்கள் விலை:',
+                suggestedCounter: 'பரிந்துரைக்கப்பட்ட எதிர்வாய்ப்பாடு:',
+                priceDifference: 'விலை வேறுபாடு:',
+                strategy: 'உத்தி:',
+                context: 'சூழல்:',
+                suggestedResponse: '💬 பரிந்துரைக்கப்பட்ட பதில்:',
+                marketTrendsTitle: '📊 இன்றைய சந்தை போக்குகள்',
+                vegetables: '🥕 காய்கறிகள்: நிலையான',
+                grains: '🌾 தானியங்கள்: உயர்ந்து வரும்',
+                dairy: '🥛 பால் பொருட்கள்: குறைந்து வரும்',
+                fruits: '🍎 பழங்கள்: கலவையான',
+                weeklyForecast: '📈 வாராந்திர முன்னறிவிப்பு:',
+                rainEffect: 'மழை இலை காய்கறிகளின் விலையை அதிகரிக்கலாம்',
+                festivalEffect: 'பண்டிகை காலம் போக்குவரத்து செலவுகளை அதிகரிக்கும்',
+                competitorPricesTitle: '🔍 அருகிலுள்ள போட்டியாளர் விலைகள்',
+                shop: '🏪 கடை',
+                online: '📱 ஆன்லைன்:',
+                competitorAdvice: 'உங்கள் விலை சந்தைக்கு ஏற்றது',
+                qualityPremium: 'தரத்தை வலியுறுத்தி பிரீமியம் வசூலிக்கலாம்',
+                seasonalAdviceText: '🌱 பருவகால ஆலோசனை: தற்போதைய பருவத்தில் தக்காளி மற்றும் வெங்காயத்திற்கு அதிக தேவை உள்ளது. அடுத்த மாதம் உருளைக்கிழங்கு விலை உயரலாம்.',
+                qualityTipsText: '⭐ தரம் குறிப்புகள்: சுத்தமான பேக்கேஜிங், புதிதாக தோன்றும் தயாரிப்புகள், மற்றும் தரப்படுத்தல் 10-15% அதிக விலை தரலாம்.',
+                storageTipsText: '📦 சேமிப்பு ஆலோசனை: காய்கறிகளை குளிர்ந்த, காற்றோட்டமான இடத்தில் வைக்கவும். வெங்காயத்தை உலர்ந்த இடத்தில் சேமிக்கவும். 2-3 நாட்களில் விற்கவும்.',
+                transportAdviceText: '🚛 போக்குவரத்து ஆலோசனை: அதிகாலையில் போக்குவரத்து செய்யவும். பகிர்ந்த லாரிகள் 30% செலவு குறைக்கலாம். பேக்கேஜிங் வலுவாக வைக்கவும்.'
+            },
+            'te': {
+                mainTitle: '🛒 మండి AI సహాయకుడు',
+                mainSubtitle: 'మీ భాషలో న్యాయమైన ధర మరియు చర్చల సహాయం',
+                languageLabel: 'మీ భాషను ఎంచుకోండి',
+                priceDiscoveryTitle: 'ధర కనుగొనే సహాయకుడు',
+                productDetailsLabel: 'ఉత్పత్తి వివరాలు',
+                getPriceBtn: '💰 న్యాయమైన ధర పొందండి',
+                voiceInputBtn: '🎤 వాయిస్ ఇన్‌పుట్',
+                marketTrendsBtn: '📊 మార్కెట్ ట్రెండ్స్',
+                listeningText: '🎤 వింటున్నాను... మీ ఎంచుకున్న భాషలో మాట్లాడండి',
+                negotiationTitle: 'చర్చల సహాయకుడు',
+                negotiationLabel: 'కొనుగోలుదారుని ఆఫర్ మరియు మీ ధర',
+                negotiationAdviceBtn: '🤝 చర్చల సలహా పొందండి',
+                competitorBtn: '🔍 పోటీదారుల ధరలు',
+                smartFeaturesTitle: 'స్మార్ట్ ఫీచర్లు',
+                seasonalAdviceTitle: 'కాలానుగుణ సలహా',
+                seasonalAdviceDesc: 'కాలం ఆధారిత ధర',
+                qualityTipsTitle: 'నాణ్యత చిట్కాలు',
+                qualityTipsDesc: 'మెరుగైన ధరల కోసం',
+                storageTipsTitle: 'నిల్వ సలహా',
+                storageTipsDesc: 'నష్టాలను తగ్గించండి',
+                transportTitle: 'రవాణా సలహా',
+                transportDesc: 'ఖర్చులను తగ్గించండి',
+                productPlaceholder: 'ఉత్పత్తి పేరు (ఉదా: టమాటోలు, బియ్యం)',
+                quantityPlaceholder: 'పరిమాణం (కిలోలు)',
+                locationPlaceholder: 'మీ స్థానం (ఉదా: హైదరాబాద్, విజయవాడ)',
+                buyerOfferPlaceholder: 'కొనుగోలుదారుని ఆఫర్ (కిలోకు)',
+                yourPricePlaceholder: 'మీ అడిగిన ధర (కిలోకు)',
+                contextPlaceholder: 'అదనపు సమాచారం (నాణ్యత, అత్యవసరత, మొదలైనవి)',
+                priceRecommendationTitle: 'కోసం ధర సిఫార్సు',
+                fairMarketPrice: 'న్యాయమైన మార్కెట్ ధర:',
+                priceRange: 'ధర పరిధి:',
+                marketTrend: 'మార్కెట్ ట్రెండ్:',
+                confidence: 'విశ్వాసం:',
+                location: 'స్థానం:',
+                quantity: 'పరిమాణం:',
+                aiSuggestions: '🧠 AI సూచనలు:',
+                basedOnMarketData: 'ప్రస్తుత మార్కెట్ డేటా మరియు కాలానుగుణ ట్రెండ్స్ ఆధారంగా',
+                bestSellingTime: 'ఉదయం 6-8 గంటలలో అమ్మకం మెరుగైన ధరలు ఇవ్వవచ్చు',
+                packagingTip: 'మంచి ప్యాకేజింగ్ 5-10% అధిక ధర ఇవ్వవచ్చు',
+                wholesaleMarket: '🏪 హోల్‌సేల్ మార్కెట్:',
+                retailMarket: '🛒 రిటైల్ మార్కెట్:',
+                onlineMarket: '🌐 ఆన్‌లైన్:',
+                negotiationStrategy: '🤝 చర్చల వ్యూహం',
+                buyerOffer: 'కొనుగోలుదారుని ఆఫర్:',
+                yourPrice: 'మీ ధర:',
+                suggestedCounter: 'సూచించిన కౌంటర్:',
+                priceDifference: 'ధర తేడా:',
+                strategy: 'వ్యూహం:',
+                context: 'సందర్భం:',
+                suggestedResponse: '💬 సూచించిన ప్రతిస్పందన:',
+                marketTrendsTitle: '📊 నేటి మార్కెట్ ట్రెండ్స్',
+                vegetables: '🥕 కూరగాయలు: స్థిరంగా',
+                grains: '🌾 ధాన్యాలు: పెరుగుతున్నాయి',
+                dairy: '🥛 పాల ఉత్పత్తులు: తగ్గుతున్నాయి',
+                fruits: '🍎 పండ్లు: మిశ్రమంగా',
+                weeklyForecast: '📈 వారపు అంచనా:',
+                rainEffect: 'వర్షం ఆకు కూరగాయల ధరలను పెంచవచ్చు',
+                festivalEffect: 'పండుగ కాలం రవాణా ఖర్చులను పెంచుతుంది',
+                competitorPricesTitle: '🔍 సమీపంలోని పోటీదారుల ధరలు',
+                shop: '🏪 దుకాణం',
+                online: '📱 ఆన్‌లైన్:',
+                competitorAdvice: 'మీ ధర మార్కెట్‌కు అనుకూలంగా ఉంది',
+                qualityPremium: 'నాణ్యతను నొక్కిచెప్పి ప్రీమియం వసూలు చేయవచ్చు',
+                seasonalAdviceText: '🌱 కాలానుగుణ సలహా: ప్రస్తుత కాలంలో టమాటోలు మరియు ఉల్లిపాయలకు అధిక డిమాండ్ ఉంది. వచ్చే నెలలో బంగాళాదుంప ధరలు పెరగవచ్చు.',
+                qualityTipsText: '⭐ నాణ్యత చిట్కాలు: శుభ్రమైన ప్యాకేజింగ్, తాజాగా కనిపించే ఉత్పత్తులు, మరియు గ్రేడింగ్ 10-15% అధిక ధర ఇవ్వవచ్చు.',
+                storageTipsText: '📦 నిల్వ సలహా: కూరగాయలను చల్లని, గాలి వచ్చే చోట ఉంచండి. ఉల్లిపాయలను పొడి చోట నిల్వ చేయండి. 2-3 రోజుల్లో అమ్మండి.',
+                transportAdviceText: '🚛 రవాణా సలహా: తెల్లవారుజామున రవాణా చేయండి. షేర్డ్ ట్రక్కులు 30% ఖర్చు తగ్గించవచ్చు. ప్యాకేజింగ్ బలంగా ఉంచండి.'
+            },
+            'bn': {
+                mainTitle: '🛒 মণ্ডি AI সহায়ক',
+                mainSubtitle: 'আপনার ভাষায় ন্যায্য মূল্য এবং দরকষাকষির সাহায্য',
+                languageLabel: 'আপনার ভাষা নির্বাচন করুন',
+                priceDiscoveryTitle: 'মূল্য আবিষ্কার সহায়ক',
+                productDetailsLabel: 'পণ্যের বিবরণ',
+                getPriceBtn: '💰 ন্যায্য মূল্য পান',
+                voiceInputBtn: '🎤 ভয়েস ইনপুট',
+                marketTrendsBtn: '📊 বাজার প্রবণতা',
+                listeningText: '🎤 শুনছি... আপনার নির্বাচিত ভাষায় কথা বলুন',
+                negotiationTitle: 'দরকষাকষি সহায়ক',
+                negotiationLabel: 'ক্রেতার অফার এবং আপনার মূল্য',
+                negotiationAdviceBtn: '🤝 দরকষাকষির পরামর্শ পান',
+                competitorBtn: '🔍 প্রতিযোগীর মূল্য',
+                smartFeaturesTitle: 'স্মার্ট বৈশিষ্ট্য',
+                seasonalAdviceTitle: 'মৌসুমী পরামর্শ',
+                seasonalAdviceDesc: 'ঋতু ভিত্তিক মূল্য',
+                qualityTipsTitle: 'গুণমান টিপস',
+                qualityTipsDesc: 'ভাল মূল্যের জন্য',
+                storageTipsTitle: 'সংরক্ষণ পরামর্শ',
+                storageTipsDesc: 'ক্ষতি কমান',
+                transportTitle: 'পরিবহন পরামর্শ',
+                transportDesc: 'খরচ কমান',
+                productPlaceholder: 'পণ্যের নাম (যেমন: টমেটো, চাল)',
+                quantityPlaceholder: 'পরিমাণ (কেজি)',
+                locationPlaceholder: 'আপনার অবস্থান (যেমন: কলকাতা, ঢাকা)',
+                buyerOfferPlaceholder: 'ক্রেতার অফার (প্রতি কেজি)',
+                yourPricePlaceholder: 'আপনার চাওয়া মূল্য (প্রতি কেজি)',
+                contextPlaceholder: 'অতিরিক্ত তথ্য (গুণমান, জরুরি, ইত্যাদি)',
+                priceRecommendationTitle: 'এর জন্য মূল্য সুপারিশ',
+                fairMarketPrice: 'ন্যায্য বাজার মূল্য:',
+                priceRange: 'মূল্য পরিসীমা:',
+                marketTrend: 'বাজার প্রবণতা:',
+                confidence: 'আস্থা:',
+                location: 'অবস্থান:',
+                quantity: 'পরিমাণ:',
+                aiSuggestions: '🧠 AI সুপারিশ:',
+                basedOnMarketData: 'বর্তমান বাজার তথ্য এবং মৌসুমী প্রবণতার ভিত্তিতে',
+                bestSellingTime: 'সকাল ৬-৮টায় বিক্রি ভাল মূল্য দিতে পারে',
+                packagingTip: 'ভাল প্যাকেজিং ৫-১০% বেশি মূল্য দিতে পারে',
+                wholesaleMarket: '🏪 পাইকারি বাজার:',
+                retailMarket: '🛒 খুচরা বাজার:',
+                onlineMarket: '🌐 অনলাইন:',
+                negotiationStrategy: '🤝 দরকষাকষি কৌশল',
+                buyerOffer: 'ক্রেতার অফার:',
+                yourPrice: 'আপনার মূল্য:',
+                suggestedCounter: 'প্রস্তাবিত পাল্টা:',
+                priceDifference: 'মূল্য পার্থক্য:',
+                strategy: 'কৌশল:',
+                context: 'প্রসঙ্গ:',
+                suggestedResponse: '💬 প্রস্তাবিত উত্তর:',
+                marketTrendsTitle: '📊 আজকের বাজার প্রবণতা',
+                vegetables: '🥕 সবজি: স্থিতিশীল',
+                grains: '🌾 শস্য: বৃদ্ধি পাচ্ছে',
+                dairy: '🥛 দুগ্ধজাত: কমছে',
+                fruits: '🍎 ফল: মিশ্র',
+                weeklyForecast: '📈 সাপ্তাহিক পূর্বাভাস:',
+                rainEffect: 'বৃষ্টি পাতা সবজির দাম বাড়াতে পারে',
+                festivalEffect: 'উৎসবের মৌসুম পরিবহন খরচ বাড়াবে',
+                competitorPricesTitle: '🔍 কাছাকাছি প্রতিযোগীর মূল্য',
+                shop: '🏪 দোকান',
+                online: '📱 অনলাইন:',
+                competitorAdvice: 'আপনার মূল্য বাজারের সাথে প্রতিযোগিতামূলক',
+                qualityPremium: 'গুণমানের উপর জোর দিয়ে প্রিমিয়াম চার্জ করতে পারেন',
+                seasonalAdviceText: '🌱 মৌসুমী পরামর্শ: বর্তমান মৌসুমে টমেটো এবং পেঁয়াজের চাহিদা বেশি। আগামী মাসে আলুর দাম বাড়তে পারে।',
+                qualityTipsText: '⭐ গুণমান টিপস: পরিষ্কার প্যাকেজিং, তাজা দেখতে পণ্য, এবং গ্রেডিং ১০-১৫% বেশি মূল্য দিতে পারে।',
+                storageTipsText: '📦 সংরক্ষণ পরামর্শ: সবজি ঠান্ডা, বাতাসযুক্ত জায়গায় রাখুন। পেঁয়াজ শুকনো জায়গায় সংরক্ষণ করুন। ২-৩ দিনের মধ্যে বিক্রি করুন।',
+                transportAdviceText: '🚛 পরিবহন পরামর্শ: ভোরে পরিবহন করুন। শেয়ার্ড ট্রাক ৩০% খরচ কমাতে পারে। প্যাকেজিং শক্তিশালী রাখুন।'
+            },
+            'mr': {
+                mainTitle: '🛒 मंडी AI सहाय्यक',
+                mainSubtitle: 'तुमच्या भाषेत न्याय्य किंमत आणि वाटाघाटीची मदत',
+                languageLabel: 'तुमची भाषा निवडा',
+                priceDiscoveryTitle: 'किंमत शोध सहाय्यक',
+                productDetailsLabel: 'उत्पादन तपशील',
+                getPriceBtn: '💰 न्याय्य किंमत मिळवा',
+                voiceInputBtn: '🎤 आवाज इनपुट',
+                marketTrendsBtn: '📊 बाजार ट्रेंड',
+                listeningText: '🎤 ऐकत आहे... तुमच्या निवडलेल्या भाषेत बोला',
+                negotiationTitle: 'वाटाघाटी सहाय्यक',
+                negotiationLabel: 'खरेदीदाराची ऑफर आणि तुमची किंमत',
+                negotiationAdviceBtn: '🤝 वाटाघाटीचा सल्ला मिळवा',
+                competitorBtn: '🔍 स्पर्धकांच्या किंमती',
+                smartFeaturesTitle: 'स्मार्ट वैशिष्ट्ये',
+                seasonalAdviceTitle: 'हंगामी सल्ला',
+                seasonalAdviceDesc: 'हंगामावर आधारित किंमत',
+                qualityTipsTitle: 'गुणवत्ता टिप्स',
+                qualityTipsDesc: 'चांगल्या किंमतीसाठी',
+                storageTipsTitle: 'साठवण सल्ला',
+                storageTipsDesc: 'नुकसान कमी करा',
+                transportTitle: 'वाहतूक सल्ला',
+                transportDesc: 'खर्च कमी करा',
+                productPlaceholder: 'उत्पादनाचे नाव (उदा: टोमॅटो, तांदूळ)',
+                quantityPlaceholder: 'प्रमाण (किलो)',
+                locationPlaceholder: 'तुमचे स्थान (उदा: मुंबई, पुणे)',
+                buyerOfferPlaceholder: 'खरेदीदाराची ऑफर (प्रति किलो)',
+                yourPricePlaceholder: 'तुमची मागितलेली किंमत (प्रति किलो)',
+                contextPlaceholder: 'अतिरिक्त माहिती (गुणवत्ता, तातडी, इ.)',
+                priceRecommendationTitle: 'साठी किंमत शिफारस',
+                fairMarketPrice: 'न्याय्य बाजार किंमत:',
+                priceRange: 'किंमत श्रेणी:',
+                marketTrend: 'बाजार ट्रेंड:',
+                confidence: 'विश्वास:',
+                location: 'स्थान:',
+                quantity: 'प्रमाण:',
+                aiSuggestions: '🧠 AI सूचना:',
+                basedOnMarketData: 'सध्याच्या बाजार डेटा आणि हंगामी ट्रेंडच्या आधारे',
+                bestSellingTime: 'सकाळी ६-८ वाजता विक्री चांगली किंमत देऊ शकते',
+                packagingTip: 'चांगले पॅकेजिंग ५-१०% जास्त किंमत देऊ शकते',
+                wholesaleMarket: '🏪 घाऊक बाजार:',
+                retailMarket: '🛒 किरकोळ बाजार:',
+                onlineMarket: '🌐 ऑनलाइन:',
+                negotiationStrategy: '🤝 वाटाघाटी रणनीती',
+                buyerOffer: 'खरेदीदाराची ऑफर:',
+                yourPrice: 'तुमची किंमत:',
+                suggestedCounter: 'सुचवलेला काउंटर:',
+                priceDifference: 'किंमत फरक:',
+                strategy: 'रणनीती:',
+                context: 'संदर्भ:',
+                suggestedResponse: '💬 सुचवलेला प्रतिसाद:',
+                marketTrendsTitle: '📊 आजचे बाजार ट्रेंड',
+                vegetables: '🥕 भाज्या: स्थिर',
+                grains: '🌾 धान्य: वाढत आहे',
+                dairy: '🥛 दुग्धजन्य: कमी होत आहे',
+                fruits: '🍎 फळे: मिश्र',
+                weeklyForecast: '📈 साप्ताहिक अंदाज:',
+                rainEffect: 'पाऊस पानेदार भाज्यांच्या किंमती वाढवू शकतो',
+                festivalEffect: 'सणाचा हंगाम वाहतूक खर्च वाढवेल',
+                competitorPricesTitle: '🔍 जवळच्या स्पर्धकांच्या किंमती',
+                shop: '🏪 दुकान',
+                online: '📱 ऑनलाइन:',
+                competitorAdvice: 'तुमची किंमत बाजाराशी स्पर्धात्मक आहे',
+                qualityPremium: 'गुणवत्तेवर भर देऊन प्रीमियम आकारू शकता',
+                seasonalAdviceText: '🌱 हंगामी सल्ला: सध्याच्या हंगामात टोमॅटो आणि कांद्याला जास्त मागणी आहे. पुढच्या महिन्यात बटाट्याच्या किंमती वाढू शकतात.',
+                qualityTipsText: '⭐ गुणवत्ता टिप्स: स्वच्छ पॅकेजिंग, ताजे दिसणारे उत्पादन, आणि ग्रेडिंग १०-१५% जास्त किंमत देऊ शकते.',
+                storageTipsText: '📦 साठवण सल्ला: भाज्या थंड, हवेशीर जागी ठेवा. कांदे कोरड्या जागी साठवा. २-३ दिवसात विका.',
+                transportAdviceText: '🚛 वाहतूक सल्ला: पहाटे वाहतूक करा. शेअर्ड ट्रक ३०% खर्च कमी करू शकतात. पॅकेजिंग मजबूत ठेवा.'
+            }
+        };
+        
+        // Initialize speech recognition if available
+        if ('webkitSpeechRecognition' in window) {
+            recognition = new webkitSpeechRecognition();
+            recognition.continuous = false;
+            recognition.interimResults = false;
+        }
+        
+        function setLanguage(lang) {
+            currentLanguage = lang;
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`[data-lang="${lang}"]`).classList.add('active');
+            
+            // Update all text elements
+            updateAllText();
+            
+            // Update speech recognition language
+            if (recognition) {
+                const langMap = {
+                    'en': 'en-IN',
+                    'hi': 'hi-IN',
+                    'ta': 'ta-IN',
+                    'te': 'te-IN',
+                    'bn': 'bn-IN',
+                    'mr': 'mr-IN'
+                };
+                recognition.lang = langMap[lang] || 'en-IN';
+            }
+        }
+        
+        function updateAllText() {
+            const t = translations[currentLanguage];
+            
+            // Update all text elements
+            document.getElementById('mainTitle').textContent = t.mainTitle;
+            document.getElementById('mainSubtitle').textContent = t.mainSubtitle;
+            document.getElementById('languageLabel').textContent = t.languageLabel;
+            document.getElementById('priceDiscoveryTitle').textContent = t.priceDiscoveryTitle;
+            document.getElementById('productDetailsLabel').textContent = t.productDetailsLabel;
+            document.getElementById('getPriceBtn').textContent = t.getPriceBtn;
+            document.getElementById('voiceInputBtn').textContent = t.voiceInputBtn;
+            document.getElementById('marketTrendsBtn').textContent = t.marketTrendsBtn;
+            document.getElementById('listeningText').textContent = t.listeningText;
+            document.getElementById('negotiationTitle').textContent = t.negotiationTitle;
+            document.getElementById('negotiationLabel').textContent = t.negotiationLabel;
+            document.getElementById('negotiationAdviceBtn').textContent = t.negotiationAdviceBtn;
+            document.getElementById('competitorBtn').textContent = t.competitorBtn;
+            document.getElementById('smartFeaturesTitle').textContent = t.smartFeaturesTitle;
+            document.getElementById('seasonalAdviceTitle').textContent = t.seasonalAdviceTitle;
+            document.getElementById('seasonalAdviceDesc').textContent = t.seasonalAdviceDesc;
+            document.getElementById('qualityTipsTitle').textContent = t.qualityTipsTitle;
+            document.getElementById('qualityTipsDesc').textContent = t.qualityTipsDesc;
+            document.getElementById('storageTipsTitle').textContent = t.storageTipsTitle;
+            document.getElementById('storageTipsDesc').textContent = t.storageTipsDesc;
+            document.getElementById('transportTitle').textContent = t.transportTitle;
+            document.getElementById('transportDesc').textContent = t.transportDesc;
+            
+            // Update placeholders
+            document.getElementById('productName').placeholder = t.productPlaceholder;
+            document.getElementById('quantity').placeholder = t.quantityPlaceholder;
+            document.getElementById('location').placeholder = t.locationPlaceholder;
+            document.getElementById('buyerOffer').placeholder = t.buyerOfferPlaceholder;
+            document.getElementById('yourPrice').placeholder = t.yourPricePlaceholder;
+            document.getElementById('negotiationContext').placeholder = t.contextPlaceholder;
+        }
+        
+        function startVoiceInput() {
+            if (!recognition) {
+                const errorMessages = {
+                    'en': 'Voice input not supported in this browser',
+                    'hi': 'इस ब्राउज़र में वॉयस इनपुट समर्थित नहीं है',
+                    'ta': 'இந்த உலாவியில் குரல் உள்ளீடு ஆதரிக்கப்படவில்லை',
+                    'te': 'ఈ బ్రౌజర్‌లో వాయిస్ ఇన్‌పుట్ మద్దతు లేదు',
+                    'bn': 'এই ব্রাউজারে ভয়েস ইনপুট সমর্থিত নয়',
+                    'mr': 'या ब्राउझरमध्ये व्हॉइस इनपुट समर्थित नाही'
+                };
+                alert(errorMessages[currentLanguage] || errorMessages['en']);
+                return;
+            }
+            
+            const indicator = document.getElementById('voiceIndicator');
+            indicator.classList.add('active');
+            
+            recognition.onresult = function(event) {
+                const transcript = event.results[0][0].transcript;
+                document.getElementById('productName').value = transcript;
+                indicator.classList.remove('active');
+            };
+            
+            recognition.onerror = function() {
+                indicator.classList.remove('active');
+                const errorMessages = {
+                    'en': 'Voice input error. Please try again.',
+                    'hi': 'वॉयस इनपुट त्रुटि। कृपया पुनः प्रयास करें।',
+                    'ta': 'குரல் உள்ளீடு பிழை. தயவுசெய்து மீண்டும் முயற்சிக்கவும்.',
+                    'te': 'వాయిస్ ఇన్‌పుట్ లోపం. దయచేసి మళ్లీ ప్రయత్నించండి.',
+                    'bn': 'ভয়েস ইনপুট ত্রুটি। দয়া করে আবার চেষ্টা করুন।',
+                    'mr': 'व्हॉइस इनपुट त्रुटी. कृपया पुन्हा प्रयत्न करा.'
+                };
+                alert(errorMessages[currentLanguage] || errorMessages['en']);
+            };
+            
+            recognition.onend = function() {
+                indicator.classList.remove('active');
+            };
+            
+            recognition.start();
+        }
+        
+        // Enhanced product database with more Indian products
+        const productDatabase = {
+            'टमाटर': { basePrice: 30, category: 'vegetables', seasonal: [6,7,8] },
+            'tomatoes': { basePrice: 30, category: 'vegetables', seasonal: [6,7,8] },
+            'चावल': { basePrice: 45, category: 'grains', seasonal: [10,11,12] },
+            'rice': { basePrice: 45, category: 'grains', seasonal: [10,11,12] },
+            'प्याज': { basePrice: 25, category: 'vegetables', seasonal: [3,4,5] },
+            'onions': { basePrice: 25, category: 'vegetables', seasonal: [3,4,5] },
+            'आलू': { basePrice: 20, category: 'vegetables', seasonal: [1,2,12] },
+            'potatoes': { basePrice: 20, category: 'vegetables', seasonal: [1,2,12] },
+            'गेहूं': { basePrice: 22, category: 'grains', seasonal: [4,5,6] },
+            'wheat': { basePrice: 22, category: 'grains', seasonal: [4,5,6] }
+        };
+        
+        const locationFactors = {
+            'दिल्ली': 1.2, 'delhi': 1.2,
+            'मुंबई': 1.3, 'mumbai': 1.3,
+            'बैंगलोर': 1.15, 'bangalore': 1.15,
+            'चेन्नई': 1.1, 'chennai': 1.1,
+            'कोलकाता': 1.05, 'kolkata': 1.05,
+            'ग्रामीण': 0.8, 'rural': 0.8,
+            'default': 1.0
+        };
+        
+        async function getPriceRecommendation() {
+            const productName = document.getElementById('productName').value.toLowerCase();
+            const quantity = document.getElementById('quantity').value;
+            const location = document.getElementById('location').value.toLowerCase();
+            const t = translations[currentLanguage];
+            
+            const errorMessages = {
+                'en': 'Please fill in all product details',
+                'hi': 'कृपया सभी उत्पाद विवरण भरें',
+                'ta': 'தயவுசெய்து அனைத்து தயாரிப்பு விவரங்களையும் நிரப்பவும்',
+                'te': 'దయచేసి అన్ని ఉత్పత్తి వివరాలను నింపండి',
+                'bn': 'দয়া করে সমস্ত পণ্যের বিবরণ পূরণ করুন',
+                'mr': 'कृपया सर्व उत्पादन तपशील भरा'
+            };
+            
+            if (!productName || !quantity || !location) {
+                alert(errorMessages[currentLanguage] || errorMessages['en']);
+                return;
+            }
+            
+            // Show loading with localized message
+            const loadingMessages = {
+                'en': 'Calculating fair price...',
+                'hi': 'उचित मूल्य की गणना कर रहे हैं...',
+                'ta': 'நியாயமான விலையை கணக்கிடுகிறது...',
+                'te': 'న్యాయమైన ధరను లెక్కిస్తున్నాము...',
+                'bn': 'ন্যায্য মূল্য গণনা করা হচ্ছে...',
+                'mr': 'न्याय्य किंमत मोजत आहे...'
+            };
+            
+            const results = document.getElementById('results');
+            results.innerHTML = `<div class="result-panel"><div class="loading"></div> ${loadingMessages[currentLanguage] || loadingMessages['en']}</div>`;
+            
+            setTimeout(() => {
+                const product = productDatabase[productName] || productDatabase['default'] || { basePrice: 35, category: 'general' };
+                const locationFactor = locationFactors[location] || locationFactors['default'];
+                const quantityDiscount = quantity > 50 ? 0.95 : quantity > 100 ? 0.9 : 1.0;
+                const seasonalFactor = product.seasonal && product.seasonal.includes(new Date().getMonth() + 1) ? 1.2 : 1.0;
+                
+                const fairPrice = (product.basePrice * locationFactor * quantityDiscount * seasonalFactor).toFixed(2);
+                const minPrice = (fairPrice * 0.85).toFixed(2);
+                const maxPrice = (fairPrice * 1.15).toFixed(2);
+                const confidence = (Math.random() * 20 + 75).toFixed(0);
+                const trendMessages = {
+                    'en': { rising: '📈 Rising', stable: '📊 Stable', falling: '📉 Falling' },
+                    'hi': { rising: '📈 बढ़ रहा', stable: '📊 स्थिर', falling: '📉 गिर रहा' },
+                    'ta': { rising: '� உயர்ந்து வரும்', stable: '📊 நிலையான', falling: '📉 குறைந்து வரும்' },
+                    'te': { rising: '📈 పెరుగుతున్న', stable: '📊 స్థిరమైన', falling: '📉 తగ్గుతున్న' },
+                    'bn': { rising: '📈 বৃদ্ধি পাচ্ছে', stable: '📊 স্থিতিশীল', falling: '📉 কমছে' },
+                    'mr': { rising: '📈 वाढत आहे', stable: '📊 स्थिर', falling: '📉 कमी होत आहे' }
+                };
+                
+                const trendTexts = trendMessages[currentLanguage] || trendMessages['en'];
+                const trendOptions = [trendTexts.rising, trendTexts.stable, trendTexts.falling];
+                const trend = trendOptions[Math.floor(Math.random() * trendOptions.length)];
+                
+                results.innerHTML = `
+                    <div class="result-panel price-result">
+                        <h4>💰 ${t.priceRecommendationTitle} ${productName}</h4>
+                        <p><strong>${t.fairMarketPrice}</strong> ₹${fairPrice} per kg</p>
+                        <p><strong>${t.priceRange}</strong> ₹${minPrice} - ₹${maxPrice} per kg</p>
+                        <p><strong>${t.marketTrend}</strong> ${trend}</p>
+                        <p><strong>${t.confidence}</strong> ${confidence}%</p>
+                        <p><strong>${t.location}</strong> ${location}</p>
+                        <p><strong>${t.quantity}</strong> ${quantity} kg</p>
+                        
+                        <div class="ai-suggestions">
+                            <h5>${t.aiSuggestions}</h5>
+                            <div class="suggestion-item">
+                                <span>💡</span>
+                                <span>${t.basedOnMarketData}</span>
+                            </div>
+                            <div class="suggestion-item">
+                                <span>⏰</span>
+                                <span>${t.bestSellingTime}</span>
+                            </div>
+                            <div class="suggestion-item">
+                                <span>📦</span>
+                                <span>${t.packagingTip}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="market-trends">
+                            <div class="trend-item">${t.wholesaleMarket} ₹${(fairPrice * 0.9).toFixed(2)}</div>
+                            <div class="trend-item">${t.retailMarket} ₹${(fairPrice * 1.2).toFixed(2)}</div>
+                            <div class="trend-item">${t.onlineMarket} ₹${(fairPrice * 1.1).toFixed(2)}</div>
+                        </div>
+                    </div>
+                `;
+            }, 1500);
+        }
+        
+        async function getNegotiationAdvice() {
+            const buyerOffer = parseFloat(document.getElementById('buyerOffer').value);
+            const yourPrice = parseFloat(document.getElementById('yourPrice').value);
+            const context = document.getElementById('negotiationContext').value;
+            const t = translations[currentLanguage];
+            
+            const errorMessages = {
+                'en': 'Please enter both offer prices',
+                'hi': 'कृपया दोनों ऑफर मूल्य दर्ज करें',
+                'ta': 'தயவுசெய்து இரண்டு வாய்ப்பாடு விலைகளையும் உள்ளிடவும்',
+                'te': 'దయచేసి రెండు ఆఫర్ ధరలను నమోదు చేయండి',
+                'bn': 'দয়া করে উভয় অফার মূল্য লিখুন',
+                'mr': 'कृपया दोन्ही ऑफर किंमती प्रविष्ट करा'
+            };
+            
+            if (!buyerOffer || !yourPrice) {
+                alert(errorMessages[currentLanguage] || errorMessages['en']);
+                return;
+            }
+            
+            const difference = yourPrice - buyerOffer;
+            const percentageDiff = ((difference / yourPrice) * 100).toFixed(1);
+            const midPoint = ((yourPrice + buyerOffer) / 2).toFixed(2);
+            
+            let strategy = '';
+            let sampleResponse = '';
+            
+            // Get localized strategy and response messages
+            const strategyMessages = {
+                'en': {
+                    large: 'Large gap. Gradually reduce and emphasize quality.',
+                    moderate: 'Moderate gap. Make small compromise.',
+                    small: 'Small gap. Accept or add extra service.',
+                    largeResponse: `"Your offer is ₹${buyerOffer}, but considering the quality, ₹${midPoint} would be fair."`,
+                    moderateResponse: `"₹${buyerOffer} is a bit low. How about ₹${midPoint}?"`,
+                    smallResponse: `"₹${buyerOffer} is fine. I can include free delivery too."`
+                },
+                'hi': {
+                    large: 'बड़ा अंतर है। धीरे-धीरे कम करें और गुणवत्ता पर जोर दें।',
+                    moderate: 'मध्यम अंतर। थोड़ा समझौता करें।',
+                    small: 'कम अंतर। स्वीकार करें या अतिरिक्त सेवा जोड़ें।',
+                    largeResponse: `"आपका ऑफर ₹${buyerOffer} है, लेकिन यह उत्पाद की गुणवत्ता को देखते हुए ₹${midPoint} उचित होगा।"`,
+                    moderateResponse: `"₹${buyerOffer} थोड़ा कम है। ₹${midPoint} में कैसा रहेगा?"`,
+                    smallResponse: `"₹${buyerOffer} ठीक है। मैं इसमें मुफ्त डिलीवरी भी दे सकता हूं।"`
+                },
+                'ta': {
+                    large: 'பெரிய இடைவெளி. படிப்படியாக குறைத்து தரத்தை வலியுறுத்துங்கள்.',
+                    moderate: 'மிதமான இடைவெளி. சிறிய சமரசம் செய்யுங்கள்.',
+                    small: 'சிறிய இடைவெளி. ஏற்றுக்கொள்ளுங்கள் அல்லது கூடுதல் சேவை சேர்க்கவும்.',
+                    largeResponse: `"உங்கள் வாய்ப்பாடு ₹${buyerOffer}, ஆனால் தரத்தை கருத்தில் கொண்டு ₹${midPoint} நியாயமாக இருக்கும்."`,
+                    moderateResponse: `"₹${buyerOffer} கொஞ்சம் குறைவு. ₹${midPoint} எப்படி?"`,
+                    smallResponse: `"₹${buyerOffer} சரி. நான் இலவச டெலிவரியும் சேர்க்கலாம்."`
+                },
+                'te': {
+                    large: 'పెద్ద గ్యాప్. క్రమంగా తగ్గించి నాణ్యతను నొక్కిచెప్పండి.',
+                    moderate: 'మధ్యస్థ గ్యాప్. చిన్న రాజీ చేయండి.',
+                    small: 'చిన్న గ్యాప్. అంగీకరించండి లేదా అదనపు సేవ జోడించండి.',
+                    largeResponse: `"మీ ఆఫర్ ₹${buyerOffer}, కానీ నాణ్యతను పరిగణనలోకి తీసుకుంటే ₹${midPoint} న్యాయంగా ఉంటుంది."`,
+                    moderateResponse: `"₹${buyerOffer} కొంచెం తక్కువ. ₹${midPoint} ఎలా?"`,
+                    smallResponse: `"₹${buyerOffer} సరే. నేను ఉచిత డెలివరీ కూడా చేర్చగలను."`
+                },
+                'bn': {
+                    large: 'বড় ব্যবধান। ধীরে ধীরে কমান এবং গুণমানের উপর জোর দিন।',
+                    moderate: 'মাঝারি ব্যবধান। ছোট আপস করুন।',
+                    small: 'ছোট ব্যবধান। গ্রহণ করুন বা অতিরিক্ত সেবা যোগ করুন।',
+                    largeResponse: `"আপনার অফার ₹${buyerOffer}, কিন্তু গুণমান বিবেচনা করে ₹${midPoint} ন্যায্য হবে।"`,
+                    moderateResponse: `"₹${buyerOffer} একটু কম। ₹${midPoint} কেমন?"`,
+                    smallResponse: `"₹${buyerOffer} ঠিক আছে। আমি বিনামূল্যে ডেলিভারিও দিতে পারি।"`
+                },
+                'mr': {
+                    large: 'मोठे अंतर. हळूहळू कमी करा आणि गुणवत्तेवर भर द्या.',
+                    moderate: 'मध्यम अंतर. छोटी तडजोड करा.',
+                    small: 'छोटे अंतर. स्वीकारा किंवा अतिरिक्त सेवा जोडा.',
+                    largeResponse: `"तुमची ऑफर ₹${buyerOffer} आहे, पण गुणवत्ता पाहता ₹${midPoint} योग्य असेल."`,
+                    moderateResponse: `"₹${buyerOffer} थोडे कमी आहे. ₹${midPoint} कसे?"`,
+                    smallResponse: `"₹${buyerOffer} ठीक आहे. मी मोफत डिलिव्हरी देखील देऊ शकतो."`
+                }
+            };
+            
+            const messages = strategyMessages[currentLanguage] || strategyMessages['en'];
+            
+            if (Math.abs(percentageDiff) > 20) {
+                strategy = messages.large;
+                sampleResponse = messages.largeResponse;
+            } else if (Math.abs(percentageDiff) > 10) {
+                strategy = messages.moderate;
+                sampleResponse = messages.moderateResponse;
+            } else {
+                strategy = messages.small;
+                sampleResponse = messages.smallResponse;
+            }
+            
+            const results = document.getElementById('negotiationResults');
+            results.innerHTML = `
+                <div class="result-panel negotiation-result">
+                    <h4>${t.negotiationStrategy}</h4>
+                    <p><strong>${t.buyerOffer}</strong> ₹${buyerOffer} per kg</p>
+                    <p><strong>${t.yourPrice}</strong> ₹${yourPrice} per kg</p>
+                    <p><strong>${t.suggestedCounter}</strong> ₹${midPoint} per kg</p>
+                    <p><strong>${t.priceDifference}</strong> ${percentageDiff}%</p>
+                    <p><strong>${t.strategy}</strong> ${strategy}</p>
+                    ${context ? `<p><strong>${t.context}</strong> ${context}</p>` : ''}
+                    
+                    <div class="ai-suggestions">
+                        <h5>${t.suggestedResponse}</h5>
+                        <div style="background: rgba(255,255,255,0.8); padding: 15px; border-radius: 8px; margin-top: 10px;">
+                            <em>${sampleResponse}</em>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        function getMarketTrends() {
+            const t = translations[currentLanguage];
+            const results = document.getElementById('results');
+            results.innerHTML = `
+                <div class="result-panel">
+                    <h4>${t.marketTrendsTitle}</h4>
+                    <div class="market-trends">
+                        <div class="trend-item">${t.vegetables}</div>
+                        <div class="trend-item">${t.grains}</div>
+                        <div class="trend-item">${t.dairy}</div>
+                        <div class="trend-item">${t.fruits}</div>
+                    </div>
+                    <div class="ai-suggestions">
+                        <h5>${t.weeklyForecast}</h5>
+                        <div class="suggestion-item">
+                            <span>🌧️</span>
+                            <span>${t.rainEffect}</span>
+                        </div>
+                        <div class="suggestion-item">
+                            <span>🚛</span>
+                            <span>${t.festivalEffect}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        function getCompetitorPrices() {
+            const t = translations[currentLanguage];
+            const results = document.getElementById('negotiationResults');
+            results.innerHTML = `
+                <div class="result-panel">
+                    <h4>${t.competitorPricesTitle}</h4>
+                    <div class="market-trends">
+                        <div class="trend-item">${t.shop} A: ₹32/kg</div>
+                        <div class="trend-item">${t.shop} B: ₹28/kg</div>
+                        <div class="trend-item">${t.shop} C: ₹35/kg</div>
+                        <div class="trend-item">${t.online} ₹30/kg</div>
+                    </div>
+                    <div class="ai-suggestions">
+                        <div class="suggestion-item">
+                            <span>💡</span>
+                            <span>${t.competitorAdvice}</span>
+                        </div>
+                        <div class="suggestion-item">
+                            <span>⭐</span>
+                            <span>${t.qualityPremium}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        function getSeasonalAdvice() {
+            const t = translations[currentLanguage];
+            alert(t.seasonalAdviceText);
+        }
+        
+        function getQualityTips() {
+            const t = translations[currentLanguage];
+            alert(t.qualityTipsText);
+        }
+        
+        function getStorageTips() {
+            const t = translations[currentLanguage];
+            alert(t.storageTipsText);
+        }
+        
+        function getTransportAdvice() {
+            const t = translations[currentLanguage];
+            alert(t.transportAdviceText);
+        }
+        
+        // Initialize with English
+        setLanguage('en');
+        
+        // Simulate real-time updates
+        setInterval(() => {
+            const indicators = document.querySelectorAll('.price-result');
+            if (indicators.length > 0) {
+                // Could add real-time price updates here
+            }
+        }, 30000);
+    </script>
+</body>
+</html>
