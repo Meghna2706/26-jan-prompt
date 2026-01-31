@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - Mandi AI Platform</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">🌾 Mandi AI Platform</div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="price-discovery.html" class="nav-link">Price Discovery</a>
+                <a href="market-analytics.html" class="nav-link">Market Analytics</a>
+                <a href="negotiation.html" class="nav-link">Negotiation</a>
+                <a href="profile.html" class="nav-link active">Profile</a>
+            </div>
+            <div class="nav-controls">
+                <select id="languageSelect" class="language-select">
+                    <option value="en">English</option>
+                    <option value="hi">हिंदी</option>
+                    <option value="ta">தமிழ்</option>
+                    <option value="te">తెలుగు</option>
+                    <option value="bn">বাংলা</option>
+                    <option value="mr">मराठी</option>
+                </select>
+                <button id="voiceBtn" class="voice-btn">🎤 Voice</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <h1 data-en="User Profile" data-hi="उपयोगकर्ता प्रोफाइल" data-ta="பயனர் சுயவிவரம்" data-te="వినియోగదారు ప్రొఫైల్" data-bn="ব্যবহারকারী প্রোফাइल" data-mr="वापरकर्ता प्रोफाइल">User Profile</h1>
+            <p data-en="Manage your profile, preferences, and transaction history" data-hi="अपनी प्रोफाइल, प्राथमिकताएं और लेनदेन इतिहास प्रबंधित करें" data-ta="உங்கள் சுயவிவரம், விருப்பங்கள் மற்றும் பரிவர்த்தனை வரலாறு நிர்வகிக்கவும்" data-te="మీ ప్రొఫైల్, ప్రాధాన్యతలు మరియు లావాదేవీ చరిత్రను నిర్వహించండి" data-bn="আপনার প্রোফাইল, পছন্দ এবং লেনদেনের ইতিহাস পরিচালনা করুন" data-mr="आपली प्रोफाइल, प्राधान्यता आणि व्यवहार इतिहास व्यवस्थापित करा">Manage your profile, preferences, and transaction history</p>
+        </div>
+
+        <div class="card">
+            <h2 data-en="Profile Information" data-hi="प्रोफाइल जानकारी" data-ta="சுயவிவர தகவல்" data-te="ప్రొఫైల్ సమాచారం" data-bn="প্রোফাইল তথ্য" data-mr="प्रोफाइल माहिती">Profile Information</h2>
+            <form onsubmit="updateProfile(event)">
+                <div class="form-group">
+                    <label data-en="Full Name" data-hi="पूरा नाम" data-ta="முழு பெயர்" data-te="పూర్తి పేరు" data-bn="সম্পূর্ণ নাম" data-mr="पूर्ण नाव">Full Name</label>
+                    <input type="text" id="fullName" value="Farmer John" required>
+                </div>
+
+                <div class="form-group">
+                    <label data-en="Email" data-hi="ईमेल" data-ta="மின்னஞ்சல்" data-te="ఇమెయిల్" data-bn="ইমেল" data-mr="ईमेल">Email</label>
+                    <input type="email" id="email" value="john@mandi.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label data-en="Phone" data-hi="फोन" data-ta="தொலைபேசி" data-te="ఫోన్" data-bn="ফোন" data-mr="फोन">Phone</label>
+                    <input type="tel" id="phone" value="+91 98765 43210" required>
+                </div>
+
+                <div class="form-group">
+                    <label data-en="Location" data-hi="स्थान" data-ta="இருப்பிடம்" data-te="స్థానం" data-bn="অবস্থান" data-mr="स्थान">Location</label>
+                    <input type="text" id="location" value="Punjab, India" required>
+                </div>
+
+                <div class="form-group">
+                    <label data-en="Role" data-hi="भूमिका" data-ta="பாத்திரம்" data-te="పాత్ర" data-bn="ভূমিকা" data-mr="भूमिका">Role</label>
+                    <select id="role">
+                        <option value="farmer">Farmer</option>
+                        <option value="trader">Trader</option>
+                        <option value="buyer">Buyer</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary" data-en="Update Profile" data-hi="प्रोफाइल अपडेट करें" data-ta="சுயவிவரத்தைப் புதுப்பிக்கவும்" data-te="ప్రొఫైల్‌ను అప్‌డేట్ చేయండి" data-bn="প্রোফাইল আপডেট করুন" data-mr="प्रोफाइल अपडेट करा">Update Profile</button>
+            </form>
+        </div>
+
+        <div class="card">
+            <h2 data-en="Preferences" data-hi="प्राथमिकताएं" data-ta="விருப்பங்கள்" data-te="ప్రాధాన్యతలు" data-bn="পছন্দ" data-mr="प्राधान्यता">Preferences</h2>
+            <form onsubmit="updatePreferences(event)">
+                <div class="form-group">
+                    <label data-en="Preferred Language" data-hi="पसंदीदा भाषा" data-ta="விரும்பிய மொழி" data-te="ఇష్టపడిన భాష" data-bn="পছন্দের ভাষা" data-mr="पसंदीचा भाषा">Preferred Language</label>
+                    <select id="language">
+                        <option value="en">English</option>
+                        <option value="hi">हिंदी</option>
+                        <option value="ta">தமிழ்</option>
+                        <option value="te">తెలుగు</option>
+                        <option value="bn">বাংলা</option>
+                        <option value="mr">मराठी</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label data-en="Notification Preferences" data-hi="सूचना प्राथमिकताएं" data-ta="அறிவிப்பு விருப்பங்கள்" data-te="నోటిఫికేషన్ ప్రాధాన్యతలు" data-bn="বিজ্ঞপ্তি পছন্দ" data-mr="सूचना प्राधान्यता">Notification Preferences</label>
+                    <div style="margin-top: 0.5rem;">
+                        <label style="display: flex; align-items: center; margin-bottom: 0.5rem;">
+                            <input type="checkbox" checked> <span style="margin-left: 0.5rem;" data-en="Price Alerts" data-hi="मूल्य सतर्कता" data-ta="விலை எச்சரிக்கைகள்" data-te="ధర అలర్టులు" data-bn="মূল्य সতর্কতা" data-mr="किंमत सतर्कता">Price Alerts</span>
+                        </label>
+                        <label style="display: flex; align-items: center; margin-bottom: 0.5rem;">
+                            <input type="checkbox" checked> <span style="margin-left: 0.5rem;" data-en="Market Updates" data-hi="बाजार अपडेट" data-ta="சந்தை புதுப்பிப்புகள்" data-te="మార్కెట్ అప్‌డేట్‌లు" data-bn="বাজার আপডেট" data-mr="बाजार अपडेट">Market Updates</span>
+                        </label>
+                        <label style="display: flex; align-items: center;">
+                            <input type="checkbox"> <span style="margin-left: 0.5rem;" data-en="Negotiation Tips" data-hi="वार्ता सुझाव" data-ta="பேச்சுவார்த்தை குறிப்புகள்" data-te="చర్చ చిట్కాలు" data-bn="আলোচনা টিপস" data-mr="वाटाघाटी सूचना">Negotiation Tips</span>
+                        </label>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary" data-en="Save Preferences" data-hi="प्राथमिकताएं सहेजें" data-ta="விருப்பங்களைச் சேமிக்கவும்" data-te="ప్రాధాన్యతలను సేవ్ చేయండి" data-bn="পছন্দ সংরক্ষণ করুন" data-mr="प्राधान्यता जतन करा">Save Preferences</button>
+            </form>
+        </div>
+
+        <div class="card">
+            <h2 data-en="Transaction History" data-hi="लेनदेन इतिहास" data-ta="பரிவர்த்தனை வரலாறு" data-te="లావాదేవీ చరిత్ర" data-bn="লেনদেনের ইতিহাস" data-mr="व्यवहार इतिहास">Transaction History</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th data-en="Date" data-hi="तारीख" data-ta="தேதி" data-te="తేదీ" data-bn="তারিখ" data-mr="तारीख">Date</th>
+                        <th data-en="Commodity" data-hi="वस्तु" data-ta="பொருள்" data-te="వస్తువు" data-bn="পণ্য" data-mr="वस्तू">Commodity</th>
+                        <th data-en="Quantity" data-hi="मात्रा" data-ta="அளவு" data-te="పరిమాణం" data-bn="পরিমাণ" data-mr="प्रमाण">Quantity</th>
+                        <th data-en="Price" data-hi="मूल्य" data-ta="விலை" data-te="ధర" data-bn="মূल्य" data-mr="किंमत">Price</th>
+                        <th data-en="Status" data-hi="स्थिति" data-ta="நிலை" data-te="స్థితి" data-bn="অবস্থা" data-mr="स्थिती">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>2026-01-28</td>
+                        <td>Wheat</td>
+                        <td>500 kg</td>
+                        <td>₹500</td>
+                        <td data-en="Completed" data-hi="पूर्ण" data-ta="முடிந்தது" data-te="పూర్తి" data-bn="সম্পন্ন" data-mr="पूर्ण">Completed</td>
+                    </tr>
+                    <tr>
+                        <td>2026-01-25</td>
+                        <td>Rice</td>
+                        <td>750 kg</td>
+                        <td>₹480</td>
+                        <td data-en="Completed" data-hi="पूर्ण" data-ta="முடிந்தது" data-te="పూర్తి" data-bn="সম্পন্ন" data-mr="पूर्ण">Completed</td>
+                    </tr>
+                    <tr>
+                        <td>2026-01-22</td>
+                        <td>Cotton</td>
+                        <td>300 kg</td>
+                        <td>₹520</td>
+                        <td data-en="Pending" data-hi="लंबित" data-ta="நிலுவையில்" data-te="పెండింగ్" data-bn="অপেক্ষমাণ" data-mr="प्रलंबित">Pending</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="card">
+            <h2 data-en="Account Settings" data-hi="खाता सेटिंग्स" data-ta="கணக்கு அமைப்புகள்" data-te="ఖాతా సెట్టింగ్‌లు" data-bn="অ্যাকাউন্ট সেটিংস" data-mr="खाते सेटिंग्स">Account Settings</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                <button class="btn btn-secondary" onclick="changePassword()" data-en="Change Password" data-hi="पासवर्ड बदलें" data-ta="கடவுச்சொல்லை மாற்றவும்" data-te="పాస్‌వర్డ్‌ను మార్చండి" data-bn="পাসওয়ার্ড পরিবর্তন করুন" data-mr="पासवर्ड बदला">Change Password</button>
+                <button class="btn btn-secondary" onclick="downloadData()" data-en="Download Data" data-hi="डेटा डाउनलोड करें" data-ta="தரவைப் பதிவிறக்கவும்" data-te="డేటాను డౌన్‌లోడ్ చేయండి" data-bn="ডেটা ডাউনলোড করুন" data-mr="डेटा डाउनलोड करा">Download Data</button>
+                <button class="btn btn-secondary" onclick="deleteAccount()" data-en="Delete Account" data-hi="खाता हटाएं" data-ta="கணக்கை நீக்கவும்" data-te="ఖాతాను తొలగించండి" data-bn="অ্যাকাউন্ট মুছুন" data-mr="खाता हटवा">Delete Account</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p data-en="© 2026 Mandi AI Platform. All rights reserved." data-hi="© 2026 Mandi AI Platform। सर्वाधिकार सुरक्षित।" data-ta="© 2026 Mandi AI Platform. அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டுள்ளன." data-te="© 2026 Mandi AI Platform. అన్ని హక్కులు సంరక్షితం." data-bn="© 2026 Mandi AI Platform. সর্বাধিকার সংরক্ষিত।" data-mr="© 2026 Mandi AI Platform. सर्वाधिकार सुरक्षित।">© 2026 Mandi AI Platform. All rights reserved.</p>
+    </footer>
+
+    <script src="app.js"></script>
+    <script>
+        function updateProfile(event) {
+            event.preventDefault();
+            alert('Profile updated successfully!');
+            speak('Profile updated successfully');
+        }
+
+        function updatePreferences(event) {
+            event.preventDefault();
+            alert('Preferences saved successfully!');
+            speak('Preferences saved successfully');
+        }
+
+        function changePassword() {
+            alert('Password change feature coming soon!');
+            speak('Password change feature coming soon');
+        }
+
+        function downloadData() {
+            alert('Your data will be downloaded as a CSV file');
+            speak('Your data will be downloaded as a CSV file');
+        }
+
+        function deleteAccount() {
+            if (confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
+                alert('Account deletion request submitted');
+                speak('Account deletion request submitted');
+            }
+        }
+    </script>
+</body>
+</html>

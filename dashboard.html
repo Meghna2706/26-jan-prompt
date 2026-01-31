@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Mandi AI Platform</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">🌾 Mandi AI Platform</div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="dashboard.html" class="nav-link active">Dashboard</a>
+                <a href="price-discovery.html" class="nav-link">Price Discovery</a>
+                <a href="market-analytics.html" class="nav-link">Market Analytics</a>
+                <a href="negotiation.html" class="nav-link">Negotiation</a>
+                <a href="profile.html" class="nav-link">Profile</a>
+            </div>
+            <div class="nav-controls">
+                <select id="languageSelect" class="language-select">
+                    <option value="en">English</option>
+                    <option value="hi">हिंदी</option>
+                    <option value="ta">தமிழ்</option>
+                    <option value="te">తెలుగు</option>
+                    <option value="bn">বাংলা</option>
+                    <option value="mr">मराठी</option>
+                </select>
+                <button class="voice-btn" id="voiceBtn">🎤 Voice</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <h1 data-en="Dashboard" data-hi="डैशबोर्ड" data-ta="டாஷ்போர்ட்" data-te="డ్యాష్‌బోర్డ్" data-bn="ড্যাশবোর্ড" data-mr="डॅशबोर्ड">Dashboard</h1>
+            <p data-en="View key market insights and recent activities" data-hi="मुख्य बाजार अंतर्दृष्टि और हाल की गतिविधियां देखें" data-ta="முக்கிய சந்தை அন்தர்দৃष்டி மற்றும் சமீபத்திய செயல்பாடுகளைப் பார்க்கவும்" data-te="ముఖ్య మార్కెట్ అంతర్దృష్టి మరియు ఇటీవలి కార్యకలాపాలను చూడండి" data-bn="মূল বাজার অন্তর্দৃষ্টি এবং সাম্প্রতিক কার্যকলাপ দেখুন" data-mr="मुख्य बाजार अंतर्दृष्टि आणि अलीकडील क्रियाकलाप पहा">View key market insights and recent activities</p>
+        </div>
+
+        <div class="grid">
+            <div class="stat-card">
+                <div class="stat-value">₹450-550</div>
+                <div class="stat-label" data-en="Fair Price Range (Wheat)" data-hi="उचित मूल्य सीमा (गेहूं)" data-ta="நியாய விலை வரம்பு (கோதுமை)" data-te="న్యాయమైన ధర పరిధి (గోధుమ)" data-bn="ন্যায্য মূল्य পরিসীমা (গম)" data-mr="न्याय्य किंमत श्रेणी (गहू)">Fair Price Range (Wheat)</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-value">📈 +5%</div>
+                <div class="stat-label" data-en="Market Trend" data-hi="बाजार प्रवृत्ति" data-ta="சந்தை போக்கு" data-te="మార్కెట్ ట్రెండ్" data-bn="বাজার প্রবণতা" data-mr="बाजार प्रवृत्ती">Market Trend</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-value">12</div>
+                <div class="stat-label" data-en="Active Negotiations" data-hi="सक्रिय वार्ता" data-ta="செயல்பாட்டு பேச்சுவார்த்தை" data-te="క్రియాశీల చర్చలు" data-bn="সক্রিয় আলোচনা" data-mr="सक्रिय वाटाघाटी">Active Negotiations</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-value">2.5K</div>
+                <div class="stat-label" data-en="Total Volume (kg)" data-hi="कुल मात्रा (किग्रा)" data-ta="மொத்த அளவு (கிலோ)" data-te="మొత్తం వాల్యూమ్ (కిలోలు)" data-bn="মোট ভলিউম (কেজি)" data-mr="एकूण व्हॉल्यूम (किलो)">Total Volume (kg)</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2 data-en="Recent Activity" data-hi="हाल की गतिविधि" data-ta="சமீபத்திய செயல்பாடு" data-te="ఇటీవలి కార్యకలాపం" data-bn="সাম্প্রতিক কার্যকলাপ" data-mr="अलीकडील क्रियाकलाप">Recent Activity</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th data-en="Commodity" data-hi="वस्तु" data-ta="பொருள்" data-te="వస్తువు" data-bn="পণ্য" data-mr="वस्तू">Commodity</th>
+                        <th data-en="Price" data-hi="मूल्य" data-ta="விலை" data-te="ధర" data-bn="মূल्य" data-mr="किंमत">Price</th>
+                        <th data-en="Volume" data-hi="मात्रा" data-ta="அளவு" data-te="వాల్యూమ్" data-bn="ভলিউম" data-mr="व्हॉल्यूम">Volume</th>
+                        <th data-en="Status" data-hi="स्थिति" data-ta="நிலை" data-te="స్థితి" data-bn="অবস্থা" data-mr="स्थिती">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Wheat</td>
+                        <td>₹500</td>
+                        <td>500 kg</td>
+                        <td data-en="Stable" data-hi="स्थिर" data-ta="நிலையான" data-te="స్థిరమైన" data-bn="স্থিতিশীল" data-mr="स्थिर">Stable</td>
+                    </tr>
+                    <tr>
+                        <td>Rice</td>
+                        <td>₹480</td>
+                        <td>750 kg</td>
+                        <td data-en="Rising" data-hi="बढ़ रहा है" data-ta="உயர்ந்து கொண்டிருக்கிறது" data-te="పెరుగుతోంది" data-bn="বৃদ্ধি পাচ্ছে" data-mr="वाढत आहे">Rising</td>
+                    </tr>
+                    <tr>
+                        <td>Cotton</td>
+                        <td>₹520</td>
+                        <td>300 kg</td>
+                        <td data-en="Falling" data-hi="गिर रहा है" data-ta="வீழ்ந்து கொண்டிருக்கிறது" data-te="పడిపోతోంది" data-bn="হ্রাস পাচ্ছে" data-mr="घटत आहे">Falling</td>
+                    </tr>
+                    <tr>
+                        <td>Sugarcane</td>
+                        <td>₹450</td>
+                        <td>1000 kg</td>
+                        <td data-en="Stable" data-hi="स्थिर" data-ta="நிலையான" data-te="స్థిరమైన" data-bn="স্থিতিশীল" data-mr="स्थिर">Stable</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="card">
+            <h2 data-en="Quick Actions" data-hi="त्वरित कार्य" data-ta="விரைவு செயல்கள்" data-te="త్వరిత చర్యలు" data-bn="দ্রুত পদক্ষেপ" data-mr="द्रुत कार्य">Quick Actions</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                <a href="price-discovery.html" class="btn btn-primary" style="text-align: center; text-decoration: none;">💰 <span data-en="Discover Prices" data-hi="मूल्य खोजें" data-ta="விலைகளைக் கண்டுபிடிக்கவும்" data-te="ధరలను కనుగొనండి" data-bn="মূল्য আবिষ्কার করুন" data-mr="किंमत शोधा">Discover Prices</span></a>
+                <a href="market-analytics.html" class="btn btn-primary" style="text-align: center; text-decoration: none;">📊 <span data-en="View Analytics" data-hi="विश्लेषण देखें" data-ta="பகுப்பாய்வு பார்க்கவும்" data-te="విశ్లేషణ చూడండి" data-bn="বিশ্লেষণ দেখুন" data-mr="विश्लेषण पहा">View Analytics</span></a>
+                <a href="negotiation.html" class="btn btn-primary" style="text-align: center; text-decoration: none;">🤝 <span data-en="Get Strategies" data-hi="रणनीति प्राप्त करें" data-ta="கৌশலங்களைப் பெறுங்கள்" data-te="వ్యూహాలను పొందండి" data-bn="কৌশল পান" data-mr="रणनीती मिळवा">Get Strategies</span></a>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p data-en="© 2026 Mandi AI Platform. All rights reserved." data-hi="© 2026 Mandi AI Platform। सर्वाधिकार सुरक्षित।" data-ta="© 2026 Mandi AI Platform. அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டுள்ளன." data-te="© 2026 Mandi AI Platform. అన్ని హక్కులు సంరక్షితం." data-bn="© 2026 Mandi AI Platform. সর্বাধিকার সংরক্ষিত।" data-mr="© 2026 Mandi AI Platform. सर्वाधिकार सुरक्षित।">© 2026 Mandi AI Platform. All rights reserved.</p>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>

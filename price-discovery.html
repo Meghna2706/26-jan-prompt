@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Price Discovery - Mandi AI Platform</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">🌾 Mandi AI Platform</div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="price-discovery.html" class="nav-link active">Price Discovery</a>
+                <a href="market-analytics.html" class="nav-link">Market Analytics</a>
+                <a href="negotiation.html" class="nav-link">Negotiation</a>
+                <a href="profile.html" class="nav-link">Profile</a>
+            </div>
+            <div class="nav-controls">
+                <select id="languageSelect" class="language-select">
+                    <option value="en">English</option>
+                    <option value="hi">हिंदी</option>
+                    <option value="ta">தமிழ்</option>
+                    <option value="te">తెలుగు</option>
+                    <option value="bn">বাংলা</option>
+                    <option value="mr">मराठी</option>
+                </select>
+                <button class="voice-btn" id="voiceBtn">🎤 Voice</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <h1 data-en="Price Discovery" data-hi="मूल्य खोज" data-ta="விலை கண்டுபிடிப்பு" data-te="ధర ఆవిష్కరణ" data-bn="মূल्य আবिষ्कार" data-mr="किंमत शोध">Price Discovery</h1>
+            <p data-en="Get AI-powered fair price recommendations for any commodity" data-hi="किसी भी वस्तु के लिए AI-संचालित उचित मूल्य सिफारिशें प्राप्त करें" data-ta="எந்த பொருளுக்கும் AI-চালিত நியாय விலை பரிந்துरைகள் பான்" data-te="ఏదైనా వస్తువు కోసం AI-ఆధారిత న్యాయమైన ధర సిఫారసులను పొందండి" data-bn="যেকোনো পণ্যের জন্য AI-চালিত ন্যায্য মূল्य সুপারিশ পান" data-mr="कोणत्याही वस्तूसाठी AI-चालित न्याय्य किंमत शिफारसी मिळवा">Get AI-powered fair price recommendations for any commodity</p>
+        </div>
+
+        <div class="card">
+            <h2 data-en="Search for Commodity" data-hi="वस्तु खोजें" data-ta="பொருளைத் தேடுங்கள்" data-te="వస్తువు కోసం శోధించండి" data-bn="পণ্য খুঁজুন" data-mr="वस्तू शोधा">Search for Commodity</h2>
+            <form onsubmit="discoverPrice(event)">
+                <div class="form-group">
+                    <label data-en="Select Commodity" data-hi="वस्तु चुनें" data-ta="பொருளைத் தேர்ந்தெடுக்கவும்" data-te="వస్తువు ఎంచుకోండి" data-bn="পণ্য নির্বাচন করুন" data-mr="वस्तू निवडा">Select Commodity</label>
+                    <select id="commodity" required>
+                        <option value="">-- Select --</option>
+                        <option value="wheat">Wheat</option>
+                        <option value="rice">Rice</option>
+                        <option value="cotton">Cotton</option>
+                        <option value="sugarcane">Sugarcane</option>
+                        <option value="maize">Maize</option>
+                        <option value="soybean">Soybean</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label data-en="Quantity (kg)" data-hi="मात्रा (किग्रा)" data-ta="அளவு (கிலோ)" data-te="పరిమాణం (కిలోలు)" data-bn="পরিমাণ (কেজি)" data-mr="प्रमाण (किलो)">Quantity (kg)</label>
+                    <input type="number" id="quantity" value="100" min="1" required>
+                </div>
+
+                <div class="form-group">
+                    <label data-en="Region" data-hi="क्षेत्र" data-ta="பிரதேசம்" data-te="ప్రాంతం" data-bn="অঞ্চল" data-mr="प्रदेश">Region</label>
+                    <select id="region">
+                        <option value="">-- Select State --</option>
+                        <option value="andhra-pradesh">Andhra Pradesh</option>
+                        <option value="arunachal-pradesh">Arunachal Pradesh</option>
+                        <option value="assam">Assam</option>
+                        <option value="bihar">Bihar</option>
+                        <option value="chhattisgarh">Chhattisgarh</option>
+                        <option value="goa">Goa</option>
+                        <option value="gujarat">Gujarat</option>
+                        <option value="haryana">Haryana</option>
+                        <option value="himachal-pradesh">Himachal Pradesh</option>
+                        <option value="jharkhand">Jharkhand</option>
+                        <option value="karnataka">Karnataka</option>
+                        <option value="kerala">Kerala</option>
+                        <option value="madhya-pradesh">Madhya Pradesh</option>
+                        <option value="maharashtra">Maharashtra</option>
+                        <option value="manipur">Manipur</option>
+                        <option value="meghalaya">Meghalaya</option>
+                        <option value="mizoram">Mizoram</option>
+                        <option value="nagaland">Nagaland</option>
+                        <option value="odisha">Odisha</option>
+                        <option value="punjab">Punjab</option>
+                        <option value="rajasthan">Rajasthan</option>
+                        <option value="sikkim">Sikkim</option>
+                        <option value="tamil-nadu">Tamil Nadu</option>
+                        <option value="telangana">Telangana</option>
+                        <option value="tripura">Tripura</option>
+                        <option value="uttar-pradesh">Uttar Pradesh</option>
+                        <option value="uttarakhand">Uttarakhand</option>
+                        <option value="west-bengal">West Bengal</option>
+                        <option value="delhi">Delhi</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary" data-en="Discover Price" data-hi="मूल्य खोजें" data-ta="விலை கண்டுபிடிக்கவும்" data-te="ధర కనుగొనండి" data-bn="মূल्य আবिষ्कार করুন" data-mr="किंमत शोधा">Discover Price</button>
+            </form>
+        </div>
+
+        <div id="priceResult" style="display: none;">
+            <div class="card">
+                <h2 data-en="Price Recommendation" data-hi="मूल्य सिफारिश" data-ta="விலை பரிந்துरை" data-te="ధర సిఫారసు" data-bn="মূल्य সুপারिश" data-mr="किंमत शिफारसी">Price Recommendation</h2>
+                
+                <div class="grid">
+                    <div class="stat-card">
+                        <div class="stat-value" id="fairPrice">₹500</div>
+                        <div class="stat-label" data-en="Fair Price" data-hi="उचित मूल्य" data-ta="நியாய விலை" data-te="న్యాయమైన ధర" data-bn="ন্যায্য মূल्य" data-mr="न्याय्य किंमत">Fair Price</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-value" id="confidence">92%</div>
+                        <div class="stat-label" data-en="Confidence" data-hi="आत्मविश्वास" data-ta="நம்பிக்கை" data-te="విశ్వాసం" data-bn="আত্মবিশ্বাস" data-mr="आत्मविश्वास">Confidence</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-value" id="priceRange">₹450-550</div>
+                        <div class="stat-label" data-en="Price Range" data-hi="मूल्य सीमा" data-ta="விலை வரம்பு" data-te="ధర పరిధి" data-bn="মূल्य পরিসীমা" data-mr="किंमत श्रेणी">Price Range</div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 2rem; padding: 1rem; background-color: #f0f0f0; border-radius: 4px;">
+                    <h3 data-en="Analysis" data-hi="विश्लेषण" data-ta="பகுப்பாய்வு" data-te="విశ్లేషణ" data-bn="বিশ্লেষণ" data-mr="विश्लेषण">Analysis</h3>
+                    <p id="analysis">Based on current market data, seasonal trends, and regional factors, the AI model recommends this price as fair and competitive.</p>
+                </div>
+
+                <div style="margin-top: 1rem;">
+                    <button class="btn btn-primary" onclick="savePriceSearch()" data-en="Save Search" data-hi="खोज सहेजें" data-ta="தேடலைச் சேமிக்கவும்" data-te="శోధనను సేవ్ చేయండి" data-bn="অনুসন্ধান সংরক্ষণ করুন" data-mr="शोध जतन करा">Save Search</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p data-en="© 2026 Mandi AI Platform. All rights reserved." data-hi="© 2026 Mandi AI Platform। सर्वाधिकार सुरक्षित।" data-ta="© 2026 Mandi AI Platform. அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டுள்ளன." data-te="© 2026 Mandi AI Platform. అన్ని హక్కులు సంరక్షితం." data-bn="© 2026 Mandi AI Platform. সর্বাধিকার সংরক্ষিত।" data-mr="© 2026 Mandi AI Platform. सर्वाधिकार सुरक्षित।">© 2026 Mandi AI Platform. All rights reserved.</p>
+    </footer>
+
+    <script src="app.js"></script>
+    <script>
+        function discoverPrice(event) {
+            event.preventDefault();
+            const commodity = document.getElementById('commodity').value;
+            const quantity = document.getElementById('quantity').value;
+            
+            const prices = {
+                wheat: { fair: 500, min: 450, max: 550, confidence: 92 },
+                rice: { fair: 480, min: 420, max: 540, confidence: 88 },
+                cotton: { fair: 520, min: 480, max: 560, confidence: 85 },
+                sugarcane: { fair: 450, min: 400, max: 500, confidence: 90 },
+                maize: { fair: 420, min: 380, max: 460, confidence: 87 },
+                soybean: { fair: 550, min: 500, max: 600, confidence: 89 }
+            };
+
+            const priceData = prices[commodity];
+            document.getElementById('fairPrice').textContent = '₹' + priceData.fair;
+            document.getElementById('confidence').textContent = priceData.confidence + '%';
+            document.getElementById('priceRange').textContent = '₹' + priceData.min + '-' + priceData.max;
+            document.getElementById('analysis').textContent = `For ${quantity}kg of ${commodity}, the AI model recommends a fair price of ₹${priceData.fair} per kg based on current market conditions and historical data.`;
+            
+            document.getElementById('priceResult').style.display = 'block';
+            speak(`Fair price for ${commodity} is ${priceData.fair} rupees per kilogram`);
+        }
+
+        function savePriceSearch() {
+            alert('Search saved successfully!');
+            speak('Search saved successfully');
+        }
+    </script>
+</body>
+</html>

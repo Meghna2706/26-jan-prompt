@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Negotiation - Mandi AI Platform</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">🌾 Mandi AI Platform</div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="price-discovery.html" class="nav-link">Price Discovery</a>
+                <a href="market-analytics.html" class="nav-link">Market Analytics</a>
+                <a href="negotiation.html" class="nav-link active">Negotiation</a>
+                <a href="profile.html" class="nav-link">Profile</a>
+            </div>
+            <div class="nav-controls">
+                <select id="languageSelect" class="language-select">
+                    <option value="en">English</option>
+                    <option value="hi">हिंदी</option>
+                    <option value="ta">தமிழ்</option>
+                    <option value="te">తెలుగు</option>
+                    <option value="bn">বাংলা</option>
+                    <option value="mr">मराठी</option>
+                </select>
+                <button id="voiceBtn" class="voice-btn">🎤 Voice</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <h1 data-en="Negotiation Assistant" data-hi="वार्ता सहायक" data-ta="பேச்சுவார்த்தை உதவி" data-te="చర్చ సహాయకుడు" data-bn="আলোচনা সহায়ক" data-mr="वाटाघाटी सहाय्यक">Negotiation Assistant</h1>
+            <p data-en="Get AI-powered negotiation strategies and counter-offer suggestions" data-hi="AI-संचालित वार्ता रणनीति और प्रति-प्रस्ताव सुझाव प्राप्त करें" data-ta="AI-চালিত பேச்சுவार்த்தை কৌশல மற்றும் எதிர்-சலுகை பரிந்துरैकें पान्" data-te="AI-ఆధారిత చర్చ వ్యూహాలు మరియు ప్రతి-ఆఫర్ సిఫారసులను పొందండి" data-bn="AI-চালিত আলোচনা কৌশল এবং প্রতি-অফার সুপারিশ পান" data-mr="AI-चालित वाटाघाटी रणनीती आणि प्रति-ऑफर शिफारसी मिळवा">Get AI-powered negotiation strategies and counter-offer suggestions</p>
+        </div>
+
+        <div class="card">
+            <h2 data-en="Negotiation Parameters" data-hi="वार्ता पैरामीटर" data-ta="பேச்சுவார்த்தை அளவுருக்கள்" data-te="చర్చ పారామితులు" data-bn="আলোচনা পরামিতি" data-mr="वाटाघाटी पॅरामीटर">Negotiation Parameters</h2>
+            <form onsubmit="getNegotiationTips(event)">
+                <div class="form-group">
+                    <label data-en="Commodity" data-hi="वस्तु" data-ta="பொருள்" data-te="వస్తువు" data-bn="পণ्य" data-mr="वस्तू">Commodity</label>
+                    <select id="commodity" required>
+                        <option value="">-- Select --</option>
+                        <option value="wheat">Wheat</option>
+                        <option value="rice">Rice</option>
+                        <option value="cotton">Cotton</option>
+                        <option value="sugarcane">Sugarcane</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label data-en="Buyer's Offer (₹/kg)" data-hi="खरीदार की पेशकश (₹/किग्रा)" data-ta="வாங்குபவரின் சலுகை (₹/கிலோ)" data-te="కొనుగోలుదారు ఆఫర్ (₹/కిలో)" data-bn="ক্রেতার অফার (₹/কেজি)" data-mr="खरेदीदाराचा ऑफर (₹/किलो)">Buyer's Offer (₹/kg)</label>
+                    <input type="number" id="buyerOffer" value="400" min="1" required>
+                </div>
+
+                <div class="form-group">
+                    <label data-en="Your Expected Price (₹/kg)" data-hi="आपकी अपेक्षित कीमत (₹/किग्रा)" data-ta="உங்கள் எதிர்பார்க்கப்பட்ட விலை (₹/கிலோ)" data-te="మీ ఆశించిన ధర (₹/కిలో)" data-bn="আপনার প্রত্যাশিত মূল्य (₹/কেজি)" data-mr="आपली अपेक्षित किंमत (₹/किलो)">Your Expected Price (₹/kg)</label>
+                    <input type="number" id="expectedPrice" value="500" min="1" required>
+                </div>
+
+                <div class="form-group">
+                    <label data-en="Quantity (kg)" data-hi="मात्रा (किग्रा)" data-ta="அளவு (கிலோ)" data-te="పరిమాణం (కిలోలు)" data-bn="পরিমাণ (কেজি)" data-mr="प्रमाण (किलो)">Quantity (kg)</label>
+                    <input type="number" id="quantity" value="500" min="1" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary" data-en="Get Negotiation Tips" data-hi="वार्ता सुझाव प्राप्त करें" data-ta="பேச்சுவார்த்தை குறிப்புகளைப் பெறுங்கள்" data-te="చర్చ చిట్కాలను పొందండి" data-bn="আলোচনা টিপস পান" data-mr="वाटाघाटी सूचना मिळवा">Get Negotiation Tips</button>
+            </form>
+        </div>
+
+        <div id="negotiationResult" style="display: none;">
+            <div class="card">
+                <h2 data-en="Recommended Strategy" data-hi="अनुशंसित रणनीति" data-ta="பரிந்துறைக்கப்பட்ட கৌशल" data-te="సిఫారసు చేసిన వ్యూహం" data-bn="সুপারিশকৃত কৌশল" data-mr="शिफारसी केलेली रणनीती">Recommended Strategy</h2>
+                
+                <div class="grid">
+                    <div class="stat-card">
+                        <div class="stat-value" id="suggestedPrice">₹480</div>
+                        <div class="stat-label" data-en="Suggested Counter" data-hi="सुझाया गया प्रति-प्रस्ताव" data-ta="பரிந்துறைக்கப்பட்ட எதிர்-சலுகை" data-te="సిఫారసు చేసిన ప్రతి-ఆఫర్" data-bn="সুপারিশকৃত প্রতি-অফার" data-mr="शिफारसी केलेला प्रति-ऑफर">Suggested Counter</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-value" id="gap">20%</div>
+                        <div class="stat-label" data-en="Price Gap" data-hi="मूल्य अंतर" data-ta="விலை இடைவெளி" data-te="ధర గ్యాప్" data-bn="মূল्य ব্যবধান" data-mr="किंमत अंतर">Price Gap</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-value" id="successRate">85%</div>
+                        <div class="stat-label" data-en="Success Rate" data-hi="सफलता दर" data-ta="வெற்றி விகிதம்" data-te="విజయ రేటు" data-bn="সাফল্যের হার" data-mr="यशस्वी दर">Success Rate</div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 2rem; padding: 1rem; background-color: #f0f0f0; border-radius: 4px;">
+                    <h3 data-en="Negotiation Tips" data-hi="वार्ता सुझाव" data-ta="பேச்சுவார்த்தை குறிப்புகள்" data-te="చర్చ చిట్కాలు" data-bn="আলোচনা টিপস" data-mr="वाटाघाटी सूचना">Negotiation Tips</h3>
+                    <ul id="tips" style="list-style-position: inside; line-height: 2;">
+                        <li>Start with a reasonable counter-offer</li>
+                        <li>Highlight quality and consistency</li>
+                        <li>Offer bulk discounts for larger quantities</li>
+                        <li>Build long-term relationship</li>
+                    </ul>
+                </div>
+
+                <div style="margin-top: 1rem;">
+                    <h3 data-en="Sample Negotiation Script" data-hi="नमूना वार्ता स्क्रिप्ट" data-ta="மாதிரி பேச்சுவார்த்தை ஸ்கிரிப்ட்" data-te="నమూనా చర్చ స్క్రిప్ట్" data-bn="নমুনা আলোচনা স্ক্রিপ্ট" data-mr="नमुना वाटाघाटी स्क्रिप्ट">Sample Negotiation Script</h3>
+                    <p id="script" style="padding: 1rem; background-color: #f9f9f9; border-left: 4px solid #2c3e50; border-radius: 4px;">
+                        "Your offer of ₹400 is appreciated, but considering the quality and current market rates, I believe ₹480 would be fair for both of us. This ensures consistent supply and quality for your business."
+                    </p>
+                </div>
+
+                <div style="margin-top: 1rem;">
+                    <button class="btn btn-primary" onclick="saveNegotiation()" data-en="Save Negotiation" data-hi="वार्ता सहेजें" data-ta="பேச்சுவார்த்தை சேமிக்கவும்" data-te="చర్చను సేవ్ చేయండి" data-bn="আলোচনা সংরক্ষণ করুন" data-mr="वाटाघाटी जतन करा">Save Negotiation</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p data-en="© 2026 Mandi AI Platform. All rights reserved." data-hi="© 2026 Mandi AI Platform। सर्वाधिकार सुरक्षित।" data-ta="© 2026 Mandi AI Platform. அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டுள்ளன." data-te="© 2026 Mandi AI Platform. అన్ని హక్కులు సంరక్షితం." data-bn="© 2026 Mandi AI Platform. সর্বাধিকার সংরক্ষিত।" data-mr="© 2026 Mandi AI Platform. सर्वाधिकार सुरक्षित।">© 2026 Mandi AI Platform. All rights reserved.</p>
+    </footer>
+
+    <script src="app.js"></script>
+    <script>
+        function getNegotiationTips(event) {
+            event.preventDefault();
+            const buyerOffer = parseInt(document.getElementById('buyerOffer').value);
+            const expectedPrice = parseInt(document.getElementById('expectedPrice').value);
+            const commodity = document.getElementById('commodity').value;
+            
+            const suggestedPrice = Math.round((buyerOffer + expectedPrice) / 2);
+            const gap = Math.round(((expectedPrice - buyerOffer) / expectedPrice) * 100);
+            
+            document.getElementById('suggestedPrice').textContent = '₹' + suggestedPrice;
+            document.getElementById('gap').textContent = gap + '%';
+            document.getElementById('successRate').textContent = (100 - gap) + '%';
+            
+            const tips = [
+                'Start with a reasonable counter-offer of ₹' + suggestedPrice,
+                'Highlight quality and consistency of your ' + commodity,
+                'Offer bulk discounts for larger quantities',
+                'Build long-term relationship for repeat business',
+                'Be flexible but firm on minimum acceptable price'
+            ];
+            
+            document.getElementById('tips').innerHTML = tips.map(tip => '<li>' + tip + '</li>').join('');
+            document.getElementById('script').textContent = `"Your offer of ₹${buyerOffer} is appreciated, but considering the quality and current market rates, I believe ₹${suggestedPrice} would be fair for both of us. This ensures consistent supply and quality for your business."`;
+            
+            document.getElementById('negotiationResult').style.display = 'block';
+            speak(`Suggested counter offer is ${suggestedPrice} rupees per kilogram`);
+        }
+
+        function saveNegotiation() {
+            alert('Negotiation saved successfully!');
+            speak('Negotiation saved successfully');
+        }
+    </script>
+</body>
+</html>

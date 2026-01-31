@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Market Analytics - Mandi AI Platform</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">🌾 Mandi AI Platform</div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="price-discovery.html" class="nav-link">Price Discovery</a>
+                <a href="market-analytics.html" class="nav-link active">Market Analytics</a>
+                <a href="negotiation.html" class="nav-link">Negotiation</a>
+                <a href="profile.html" class="nav-link">Profile</a>
+            </div>
+            <div class="nav-controls">
+                <select id="languageSelect" class="language-select">
+                    <option value="en">English</option>
+                    <option value="hi">हिंदी</option>
+                    <option value="ta">தமிழ்</option>
+                    <option value="te">తెలుగు</option>
+                    <option value="bn">বাংলা</option>
+                    <option value="mr">मराठी</option>
+                </select>
+                <button class="voice-btn" id="voiceBtn">🎤 Voice</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <h1 data-en="Market Analytics" data-hi="बाजार विश्लेषण" data-ta="சந்தை பகுப்பாய்வு" data-te="మార్కెట్ విశ్లేషణ" data-bn="বাজার বिश्लेषण" data-mr="बाजार विश्लेषण">Market Analytics</h1>
+            <p data-en="Analyze market trends with interactive charts and insights" data-hi="इंटरैक्टिव चार्ट और अंतर्दृष्टि के साथ बाजार प्रवृत्ति का विश्लेषण करें" data-ta="ஊடாடும் விளக்கப்படங்கள் மற்றும் அன்தர்दৃष்டி கொண்டு சந்தை போக்கை பகுப்பாய்வு செய்யுங்கள்" data-te="ఇంటరాక్టివ్ చార్ట్‌లు మరియు అంతర్దృష్టితో మార్కెట్ ట్రెండ్‌ను విశ్లేషించండి" data-bn="ইন্টারেক্টিভ চার্ট এবং অন্তর্দৃষ্টি দিয়ে বাজার প্রবণতা বিশ্লেষণ করুন" data-mr="इंटरेक्टिव चार्ट आणि अंतर्दृष्टी सह बाजार प्रवृत्तीचे विश्लेषण करा">Analyze market trends with interactive charts and insights</p>
+        </div>
+
+        <div class="card">
+            <h2 data-en="Price Trends" data-hi="मूल्य प्रवृत्ति" data-ta="விலை போக்கு" data-te="ధర ట్రెండ్‌లు" data-bn="মূल्य প्রবণতা" data-mr="किंमत प्रवृत्ती">Price Trends</h2>
+            <canvas id="priceChart" style="max-height: 300px;"></canvas>
+        </div>
+
+        <div class="card">
+            <h2 data-en="Market Distribution" data-hi="बाजार वितरण" data-ta="சந்தை விநியோகம்" data-te="మార్కెట్ పంపిణీ" data-bn="বাজার বिতरण" data-mr="बाजार वितरण">Market Distribution</h2>
+            <canvas id="distributionChart" style="max-height: 300px;"></canvas>
+        </div>
+
+        <div class="grid">
+            <div class="stat-card">
+                <div class="stat-value">₹485</div>
+                <div class="stat-label" data-en="Average Price" data-hi="औसत मूल्य" data-ta="சராசரி விலை" data-te="సగటు ధర" data-bn="গড় মূल्य" data-mr="सरासरी किंमत">Average Price</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-value">+8%</div>
+                <div class="stat-label" data-en="Weekly Change" data-hi="साप्ताहिक परिवर्तन" data-ta="வாராந்திர மாற्றம்" data-te="వారపు మార్పు" data-bn="সাপ্তাহিক পরিবর्तन" data-mr="साप्ताहिक बदल">Weekly Change</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-value">2.5K</div>
+                <div class="stat-label" data-en="Total Volume" data-hi="कुल मात्रा" data-ta="மொத்த அளவு" data-te="మొత్తం వాల్యూమ్" data-bn="মোট ভলিউম" data-mr="एकूण व्हॉल्यूम">Total Volume</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2 data-en="Market Insights" data-hi="बाजार अंतर्दृष्टि" data-ta="சந்தை அன்தர்दৃष்டி" data-te="మార్కెట్ అంతర్దృష్టి" data-bn="বাজার অন্তর्দৃষ্টি" data-mr="बाजार अंतर्दृष्टि">Market Insights</h2>
+            <ul style="list-style-position: inside; line-height: 2;">
+                <li data-en="Wheat prices are stable with slight upward trend" data-hi="गेहूं की कीमतें स्थिर हैं हल्के ऊपरी प्रवृत्ति के साथ" data-ta="கோதுமை விலைகள் நிலையாக உள்ளன லேசான ऊपरी போக்குடன்" data-te="గోధుమ ధరలు స్థిరంగా ఉన్నాయి తేలికైన ऊपरी ట్రెండ్‌తో" data-bn="গম্ের দাম স্থিতিশীল হালকা ऊपरी প্রবণতা সহ" data-mr="गहूच्या किंमती स्थिर आहेत हल्क्या ऊपरी प्रवृत्तीसह">Wheat prices are stable with slight upward trend</li>
+                <li data-en="Rice demand is increasing in eastern markets" data-hi="पूर्वी बाजारों में चावल की मांग बढ़ रही है" data-ta="கிழக்கு சந்தைகளில் அரிசி தேவை அதிகரித்து வருகிறது" data-te="తూర్పు మార్కెట్‌లలో రైస్ డిమాండ్ పెరుగుతోంది" data-bn="পূর্বাঞ্চলীয় বাজারে চাল চাহিদা বৃদ্ধি পাচ্ছে" data-mr="पूर्वीय बाजारांमध्ये तांदूळ मागणी वाढत आहे">Rice demand is increasing in eastern markets</li>
+                <li data-en="Cotton prices expected to rise next month" data-hi="कपास की कीमतें अगले महीने बढ़ने की उम्मीद है" data-ta="棉花 விலைகள் அடுத்த மாதம் அதிகரிக்கும் என்று எதிர்பார்க்கப்படுகிறது" data-te="కాటన్ ధరలు వచ్చే నెలలో పెరుగుతాయని ఆశించారు" data-bn="পরবর্তী মাসে তুলার দাম বৃদ্ধির প্রত্যাশা" data-mr="पुढील महिन्यात कपासाच्या किंमती वाढण्याची अपेक्षा आहे">Cotton prices expected to rise next month</li>
+                <li data-en="Sugarcane production at seasonal high" data-hi="गन्ने का उत्पादन मौसमी उच्च पर है" data-ta="கரும்பு உற்பादन பருவகால உচ்சத்தில் உள்ளது" data-te="చెరకు ఉత్పత్తి సీజనల్ హైలో ఉంది" data-bn="আখের উৎপাদন মৌসুমী উচ্চতায় রয়েছে" data-mr="ऊख उत्पादन मौसमी उच्चावर आहे">Sugarcane production at seasonal high</li>
+            </ul>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p data-en="© 2026 Mandi AI Platform. All rights reserved." data-hi="© 2026 Mandi AI Platform। सर्वाधिकार सुरक्षित।" data-ta="© 2026 Mandi AI Platform. அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டுள்ளன." data-te="© 2026 Mandi AI Platform. అన్ని హక్కులు సంరక్షితం." data-bn="© 2026 Mandi AI Platform. সর্বাধিকার সংরক্ষিত।" data-mr="© 2026 Mandi AI Platform. सर्वाधिकार सुरक्षित।">© 2026 Mandi AI Platform. All rights reserved.</p>
+    </footer>
+
+    <script src="app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            initCharts();
+        });
+
+        function initCharts() {
+            const priceCtx = document.getElementById('priceChart').getContext('2d');
+            new Chart(priceCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                    datasets: [{
+                        label: 'Wheat Price',
+                        data: [480, 490, 500, 495, 510, 520, 530],
+                        borderColor: '#2c3e50',
+                        backgroundColor: 'rgba(44, 62, 80, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: { display: true }
+                    }
+                }
+            });
+
+            const distCtx = document.getElementById('distributionChart').getContext('2d');
+            new Chart(distCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Wheat', 'Rice', 'Cotton', 'Sugarcane'],
+                    datasets: [{
+                        data: [30, 25, 20, 25],
+                        backgroundColor: ['#2c3e50', '#34495e', '#7f8c8d', '#95a5a6']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true
+                }
+            });
+        }
+    </script>
+</body>
+</html>
