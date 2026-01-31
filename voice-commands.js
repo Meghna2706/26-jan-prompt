@@ -25,13 +25,13 @@ const voiceCommands = {
         hi: ['डैशबोर्ड', 'कीमत', 'विश्लेषण', 'वार्ता', 'प्रोफाइल', 'होम'],
         ta: ['டாஷ்போர்ட்', 'விலை', 'பகுப்பாய்வு', 'பேச்சுவார்த்தை', 'சுயவிவரம்', 'வீடு'],
         te: ['డ్యాష్‌బోర్డ్', 'ధర', 'విశ్లేషణ', 'చర్చ', 'ప్రొఫైల్', 'హోమ్'],
-        bn: ['ড্যাশবোর্ড', 'মূল্য', 'বিশ্লেষণ', 'আলোচনা', 'প্রোফাইল', 'হোম'],
+        bn: ['ড্যাশবোর্ড', 'মূল्य', 'বিশ্লেষণ', 'আলোচনা', 'প্রোফাইল', 'হোম'],
         mr: ['डॅशबोर्ड', 'किंमत', 'विश्लेषण', 'वाटाघाटी', 'प्रोफाइल', 'होम']
     },
     commodities: {
         en: ['wheat', 'rice', 'cotton', 'sugarcane'],
         hi: ['गेहूं', 'चावल', 'कपास', 'गन्ना'],
-        ta: ['கோதுமை', 'அரிசி', '棉', 'கரும்பு'],
+        ta: ['கோதுமை', 'அரிசி', 'பருத்தி', 'கரும்பு'],
         te: ['గోధుమ', 'బియ్యం', 'పత్తి', 'చెరకు'],
         bn: ['গম', 'চাল', 'তুলা', 'আখ'],
         mr: ['गहू', 'तांदूळ', 'कापूस', 'ऊस']
@@ -39,18 +39,10 @@ const voiceCommands = {
     regions: {
         en: ['punjab', 'haryana', 'maharashtra', 'karnataka', 'madhya pradesh', 'uttar pradesh', 'bihar', 'west bengal', 'tamil nadu', 'telangana', 'andhra pradesh', 'rajasthan', 'gujarat', 'kerala', 'jharkhand', 'chhattisgarh', 'assam', 'himachal pradesh', 'uttarakhand', 'goa', 'manipur', 'meghalaya', 'mizoram', 'nagaland', 'odisha', 'sikkim', 'tripura', 'delhi'],
         hi: ['पंजाब', 'हरियाणा', 'महाराष्ट्र', 'कर्नाटक', 'मध्य प्रदेश', 'उत्तर प्रदेश', 'बिहार', 'पश्चिम बंगाल', 'तमिलनाडु', 'तेलंगाना', 'आंध्र प्रदेश', 'राजस्थान', 'गुजरात', 'केरल', 'झारखंड', 'छत्तीसगढ़', 'असम', 'हिमाचल प्रदेश', 'उत्तराखंड', 'गोवा', 'मणिपुर', 'मेघालय', 'मिजोरम', 'नागालैंड', 'ओडिशा', 'सिक्किम', 'त्रिपुरा', 'दिल्ली'],
-        ta: ['பஞ்சாப்', 'ஹரியாணா', 'மகாராஷ்ட்ர', 'கர்நாடக', 'மத்திய பிரதேசம்', 'உத்தர பிரதேசம்', 'பிहார்', 'மேற்கு வங்கம்', 'தமிழ்நாடு', 'தெலங்கானா', 'ஆந்திர பிரதேசம்', 'ராஜஸ்தான்', 'குஜராத்', 'கேரளா', 'ஜார்கண்ட்', 'சத்தீஸ்கர்', 'அசாம்', 'இமாச்சல் பிரதேசம்', 'உத்தரகாண்ட்', 'கோவா', 'மணிப்பூர்', 'மேகாலயா', 'மிஜோரம்', 'நாகாலாந்த்', 'ஒடிசா', 'சிக்கிம்', 'திரிபுரா', 'டெல்லி'],
+        ta: ['பஞ்சாப்', 'ஹரியாணா', 'மகாராஷ்ட்ர', 'கர்நாடக', 'மத்திய பிரதேசம்', 'உத்தர பிரதேசம்', 'பிஹார்', 'மேற்கு வங்கம்', 'தமிழ்நாடு', 'தெலங்கானா', 'ஆந்திர பிரதேசம்', 'ராஜஸ்தான்', 'குஜராத்', 'கேரளா', 'ஜார்கண்ட்', 'சத்தீஸ்கர்', 'அசாம்', 'இமாச்சல் பிரதேசம்', 'உத்தரகாண்ட்', 'கோவா', 'மணிப்பூர்', 'மேகாலயா', 'மிஜோரம்', 'நாகாலாந்த்', 'ஒடிசா', 'சிக்கிம்', 'திரிபுரா', 'டெல்லி'],
         te: ['పంజాబ్', 'హరియాణ', 'మహారాష్ట్ర', 'కర్నాటక', 'మధ్య ప్రదేశ్', 'ఉత్తర ప్రదేశ్', 'బిహార్', 'పశ్చిమ బెంగాల్', 'తమిళనాడు', 'తెలంగాణ', 'ఆంధ్ర ప్రదేశ్', 'రాజస్థాన్', 'గుజరాత్', 'కేరళ', 'జార్కండ్', 'ఛత్తీసగఢ్', 'అసోమ్', 'హిమాచల్ ప్రదేశ్', 'ఉత్తరాఖండ్', 'గోవా', 'మణిపూర్', 'మెఘాలయ', 'మిజోరమ్', 'నాగాలాండ్', 'ఒడిశా', 'సిక్కిమ్', 'త్రిపుర', 'ఢిల్లీ'],
-        bn: ['পাঞ্জাব', 'হরিয়ানা', 'মহারাষ্ট্র', 'কর্নাটক', 'মধ্য প্রদেশ', 'উত্তর প্রদেশ', 'বিহার', 'পশ্চিম বাংলা', 'তামিলনাডু', 'তেলেঙ্গানা', 'আন্ধ্র প্রদেশ', 'রাজস্থান', 'গুজরাত', 'কেরল', 'ঝাড়খণ্ড', 'ছত্তিসগড়', 'আসাম', 'হিমাচল প্রদেশ', 'উত্তরাখণ্ড', 'গোয়া', 'মণিপুর', 'মেঘালয়', 'মিজোরাম', 'নাগাল্যান্ড', 'ওডিশা', 'সিক্কিম', 'ত্রিপুরা', 'দিল্লি'],
+        bn: ['পাঞ্জাব', 'হরিয়ানা', 'মহারাষ্ট্র', 'কর্নাটক', 'মধ্য প্রদেश', 'উত্তর প্রদেश', 'বিহার', 'পশ্চিম বাংলা', 'তামিলনাডু', 'তেলেঙ্গানা', 'আন্ধ্র প্রদেশ', 'রাজস্থান', 'গুজরাত', 'কেরল', 'ঝাড়খণ্ড', 'ছত্তিসগড়', 'আসাম', 'হিমাচল প্রদেশ', 'উত্তরাখণ্ড', 'গোয়া', 'মণিপুর', 'মেঘালয়', 'মিজোরাম', 'নাগাল্যান্ড', 'ওডিশা', 'সিক্কিম', 'ত্রিপুরা', 'ঢাকা'],
         mr: ['पंजाब', 'हरियाणा', 'महाराष्ट्र', 'कर्नाटक', 'मध्य प्रदेश', 'उत्तर प्रदेश', 'बिहार', 'पश्चिम बंगाल', 'तामिळनाडु', 'तेलंगाना', 'आंध्र प्रदेश', 'राजस्थान', 'गुजरात', 'केरळ', 'झारखंड', 'छत्तीसगढ', 'असम', 'हिमाचल प्रदेश', 'उत्तरांचल', 'गोवा', 'मणिपूर', 'मेघालय', 'मिजोरम', 'नागालँड', 'ओडिशा', 'सिक्किम', 'त्रिपुरा', 'दिल्ली']
-    },
-    actions: {
-        en: ['discover', 'search', 'submit', 'save', 'tips', 'get', 'set', 'select', 'quantity', 'kg', 'kilogram', 'buyer', 'offer', 'price', 'expected'],
-        hi: ['खोज', 'जमा', 'बचाएं', 'सुझाव', 'प्राप्त', 'सेट', 'चुनें', 'मात्रा', 'किग्रा', 'खरीदार', 'प्रस्ताव', 'कीमत', 'अपेक्षित'],
-        ta: ['கண்டுபிடி', 'தேடல்', 'சமர்ப்பி', 'சேமி', 'குறிப்புகள்', 'பெறு', 'அமை', 'தேர்ந்தெடு', 'அளவு', 'கிலோ', 'வாங்குபவர்', 'சலுகை', 'விலை', 'எதிர்பார்க்கப்பட்ட'],
-        te: ['కనుగొని', 'శోధన', 'సమర్పించు', 'సేవ్', 'చిట్కాలు', 'పొందండి', 'సెట్', 'ఎంచుకోండి', 'పరిమాణం', 'కిలో', 'కొనుగోలుదారు', 'ఆఫర్', 'ధర', 'ఆశించిన'],
-        bn: ['খুঁজুন', 'অনুসন্ধান', 'জমা দিন', 'সংরক্ষণ করুন', 'টিপস', 'পান', 'সেট করুন', 'নির্বাচন করুন', 'পরিমাণ', 'কেজি', 'ক্রেতা', 'অফার', 'মূল্য', 'প্রত্যাশিত'],
-        mr: ['शोधा', 'शोध', 'सबमिट', 'जतन', 'सूचना', 'मिळवा', 'सेट', 'निवडा', 'प्रमाण', 'किलो', 'खरेदीदार', 'ऑफर', 'किंमत', 'अपेक्षित']
     }
 };
 
@@ -58,7 +50,7 @@ function changeLanguage(lang) {
     currentLanguage = lang;
     localStorage.setItem('language', lang);
     updatePageLanguage();
-    speak('Language changed to ' + lang);
+    speak('Language changed');
 }
 
 function updatePageLanguage() {
@@ -191,7 +183,7 @@ function handlePriceDiscoveryCommands(command) {
     }
 
     // Check quantity commands
-    const quantityMatch = command.match(/(\d+)\s*(kg|kilogram|किग्रा|கிலோ|కిలో|কেজি|किलो)/i);
+    const quantityMatch = command.match(/(\d+)\s*(kg|kilogram|किग्रा|कि\.ग्रा|கிலோ|కిలో|কেজি|किलो)/i);
     if (quantityMatch && quantityInput) {
         quantityInput.value = quantityMatch[1];
         speak('Quantity set to ' + quantityMatch[1]);
@@ -214,8 +206,7 @@ function handlePriceDiscoveryCommands(command) {
     }
 
     // Check discover/search commands
-    const actions = voiceCommands.actions[currentLanguage] || voiceCommands.actions.en;
-    if (command.includes(actions[0]) || command.includes('discover') || command.includes('search')) {
+    if (command.includes('discover') || command.includes('search') || command.includes('खोज') || command.includes('தேடல்') || command.includes('శోధన') || command.includes('খুঁজুন') || command.includes('शोध')) {
         const form = document.querySelector('form');
         if (form) {
             form.dispatchEvent(new Event('submit'));
@@ -248,33 +239,39 @@ function handleNegotiationCommands(command) {
         }
     }
 
-    // Check buyer offer commands
-    const buyerMatch = command.match(/(\d+)\s*(buyer|offer|खरीदार|வாங்குபவர்|కొనుగోలుదారు|ক্রেতা|खरेदीदार)?/i);
-    if (buyerMatch && buyerOfferInput) {
-        buyerOfferInput.value = buyerMatch[1];
-        speak('Buyer offer set to ' + buyerMatch[1]);
-        return;
-    }
+    // Check buyer offer commands - look for numbers
+    const buyerMatch = command.match(/(\d+)/);
+    if (buyerMatch) {
+        // Check if it's a buyer offer command
+        if (command.includes('buyer') || command.includes('offer') || command.includes('खरीदार') || command.includes('வாங்குபவர்') || command.includes('కొనుగోలుదారు') || command.includes('ক্রেতা') || command.includes('खरेदीदार')) {
+            if (buyerOfferInput) {
+                buyerOfferInput.value = buyerMatch[1];
+                speak('Buyer offer set to ' + buyerMatch[1]);
+            }
+            return;
+        }
+        
+        // Check if it's an expected price command
+        if (command.includes('price') || command.includes('expected') || command.includes('कीमत') || command.includes('விலை') || command.includes('ధర') || command.includes('মূল्य') || command.includes('किंमत')) {
+            if (expectedPriceInput) {
+                expectedPriceInput.value = buyerMatch[1];
+                speak('Expected price set to ' + buyerMatch[1]);
+            }
+            return;
+        }
 
-    // Check expected price commands
-    const priceMatch = command.match(/(\d+)\s*(price|expected|कीमत|விலை|ధర|মূল्य|किंमत)?/i);
-    if (priceMatch && expectedPriceInput) {
-        expectedPriceInput.value = priceMatch[1];
-        speak('Expected price set to ' + priceMatch[1]);
-        return;
-    }
-
-    // Check quantity commands
-    const quantityMatch = command.match(/(\d+)\s*(kg|kilogram|किग्रा|கிலோ|కిలో|কেজি|किलो)/i);
-    if (quantityMatch && quantityInput) {
-        quantityInput.value = quantityMatch[1];
-        speak('Quantity set to ' + quantityMatch[1]);
-        return;
+        // Check if it's a quantity command
+        if (command.includes('kg') || command.includes('kilogram') || command.includes('किग्रा') || command.includes('कि\.ग्रा') || command.includes('கிலோ') || command.includes('కిలో') || command.includes('কেজি') || command.includes('किलो') || command.includes('quantity') || command.includes('मात्रा') || command.includes('அளவு') || command.includes('పరిమాణం') || command.includes('পরিমাণ') || command.includes('प्रमाण')) {
+            if (quantityInput) {
+                quantityInput.value = buyerMatch[1];
+                speak('Quantity set to ' + buyerMatch[1]);
+            }
+            return;
+        }
     }
 
     // Check tips/submit commands
-    const actions = voiceCommands.actions[currentLanguage] || voiceCommands.actions.en;
-    if (command.includes(actions[4]) || command.includes('tips') || command.includes('submit')) {
+    if (command.includes('tips') || command.includes('submit') || command.includes('सुझाव') || command.includes('குறிப்புகள்') || command.includes('చిట్కాలు') || command.includes('টিপস') || command.includes('सूचना') || command.includes('get') || command.includes('प्राप्त') || command.includes('பெறு') || command.includes('పొందండి') || command.includes('পান') || command.includes('मिळवा')) {
         const form = document.querySelector('form');
         if (form) {
             form.dispatchEvent(new Event('submit'));
